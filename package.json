@@ -32,7 +32,7 @@
     "types": "./dist/main.d.ts",
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "tailwindcss -i ./src/components/MardownEditor/style.css -o ./src/components/MardownEditor/style.min.css --minify && storybook build -o docs && tsc -b && vite build",
         "lint": "eslint . --ext ts,tsx",
         "lint:fix": "eslint . --ext ts,tsx --fix",
         "format": "prettier --check .",
@@ -45,7 +45,8 @@
         "test:ui": "vitest --ui",
         "coverage": "vitest run --coverage",
         "prepublishOnly": "vitest run && npm run build",
-        "tailwind:build": "tailwindcss -i ./src/components/MardownEditor/style.css -o ./src/components/MardownEditor/style.min.css --minify --watch"
+        "tailwind:build": "tailwindcss -i ./src/components/MardownEditor/style.css -o ./src/components/MardownEditor/style.min.css --minify --watch",
+        "prepare": "tailwind:build && build-storybook"
     },
     "peerDependencies": {
         "decimal.js": "^10.6.0",

@@ -10,6 +10,7 @@ import ToolButton from './components/ToolButton'
 import Icons from './icons'
 import { CodeBlockPlugin, YouTubeEmbedPlugin } from './plugins'
 import { parseMarkdown } from './utils/parser_engine'
+import { highlightMarkdownSource } from '@/components/MardownEditor/utils/markdown_highlighter.ts'
 
 /** Example Usage:
  * <MarkdownEditor
@@ -24,6 +25,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
     const [showPreview, setShowPreview] = useState(preview)
     const [htmlContent, setHtmlContent] = useState('')
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const preRef = useRef<HTMLPreElement>(null)
     const previewRef = useRef<HTMLDivElement>(null)
     const [isScrollSynced, setIsScrollSynced] = useState(scrollSync)
 
@@ -37,6 +39,9 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
         fields: [],
         onConfirm: () => {},
     })
+
+    // Highlighted Source Code State
+    const highlightedSource = useMemo(() => highlightMarkdownSource(value), [value])
 
     // --- Merge default plugins ---
     const allPlugins = useMemo(() => {
@@ -92,9 +97,17 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
             if (!isScrollSynced) return
             const editor = textareaRef.current
             const preview = previewRef.current
-            if (!editor || !preview) return
+            const pre = preRef.current
+
+            if (!pre || !editor || !preview) return
+
+            if (pre) {
+                pre.scrollTop = editor.scrollTop
+                pre.scrollLeft = editor.scrollLeft
+            }
 
             if (source === 'editor') {
+
                 const percentage = editor.scrollTop / (editor.scrollHeight - editor.clientHeight)
                 preview.scrollTop = percentage * (preview.scrollHeight - preview.clientHeight)
             }
@@ -317,18 +330,9 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
             {/* 3. EDITOR AREA */}
             <div className='editor-area flex-1 flex overflow-hidden'>
                 {/* Input Pane */}
-                <div data-preview={showPreview ? 'true' : 'false'} className={`editor-col flex flex-col h-full ${showPreview ? 'w-1/2' : 'w-full'}`}>
-                    <textarea
-                        ref={textareaRef}
-                        value={value}
-                        cols={100}
-                        onChange={(e) => onChange(e.target.value)}
-                        onScroll={() => handleScroll('editor')}
-                        onKeyDown={handleKeyDown}
-                        className={`w-full h-full box-border border-none p-4 resize-none outline-none font-mono text-sm leading-relaxed text-gray-800 bg-white ${showPreview ? 'border-r border-gray-200' : ''}`}
-                        placeholder='Type your markdown here...'
-                        spellCheck={false}
-                    />
+                <div data-preview={showPreview ? 'true' : 'false'} className={`editor-col relative flex flex-col h-full ${showPreview ? 'w-1/2 border-r border-gray-200' : 'w-full'}`}>
+                    <pre ref={preRef} className='' aria-hidden='true' dangerouslySetInnerHTML={{ __html: highlightedSource }} />
+                    <textarea ref={textareaRef} value={value} cols={100} onChange={(e) => onChange(e.target.value)} onScroll={() => handleScroll('editor')} onKeyDown={handleKeyDown} className={``} placeholder='Type your markdown here...' spellCheck={false} />
                 </div>
 
                 {/* Preview Pane */}

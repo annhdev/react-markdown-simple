@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-CK24LGC9.js";export{t as MDXProvider};
