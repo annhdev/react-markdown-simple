@@ -1,0 +1,134 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as MarkdownEditorPreview from './index.stories';
+import Table from "../Table/index.tsx";
+
+<Meta title="MarkdownEditor Preview" of={MarkdownEditorPreview} />
+
+# Markdown Editor Component
+The `MarkdownEditor` component provides a user-friendly interface for writing and previewing Markdown content. It includes features such as syntax highlighting, live preview, and toolbar options for common formatting actions.
+## Features
+- Syntax Highlighting
+- Live Preview
+- Toolbar with Formatting Options
+- Customizable Themes
+- Easy Integration with React Applications
+
+## Quick Start
+
+```
+npm i react-markdown-simple
+```
+To use the `MarkdownEditor` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.
+```jsx
+import React, { useState } from 'react';
+import { MarkdownEditor } from 'react-markdown-simple';
+const App = () => {
+  const [content, setContent] = useState('# Hello, Markdown!');
+
+  return (
+    <MarkdownEditor
+      value={content}
+      onChange={setContent}
+      plugins={[]}
+      scrollSync={true}
+      preview={true}
+    />
+  );
+};
+export default App;
+```
+
+## Example
+<Canvas>
+  <MarkdownEditorPreview.Demo />
+</Canvas>
+
+
+## Props
+
+| Prop Name      | Type     | Default   | Description                             |
+|----------------|----------|-----------|-----------------------------------------|
+| value          | string   | ''        | The initial Markdown content.           |
+| onChange       | function | (value) => void  | Callback function when content changes. |
+| scrollSync     | boolean  | true      | If true, synchronizes scrolling between editor and preview. |
+| preview        | boolean  | true      | If true, shows the live preview pane.          |
+| plugins       | array    | []        | Array of plugins to extend editor functionality. |
+| className     | string   | ''        | Additional CSS class for custom styling. |
+
+
+<Table
+    headers={['Prop Name', 'Type', 'Default', 'Description']}
+    rows={[
+        ['value', 'string', '', 'The initial Markdown content.'],
+        ['onChange', 'function', '(value) => void', 'Callback function when content changes.'],
+        ['scrollSync', 'boolean', 'true', 'If true, synchronizes scrolling between editor and preview.'],
+        ['preview', 'boolean', 'true', 'If true, shows the live preview pane.'],
+        ['plugins', 'array', '[]', 'Array of plugins to extend editor functionality.'],
+        ['className', 'string', "''", 'Additional CSS class for custom styling.']
+    ]}
+/>
+
+## Plugins
+The `MarkdownEditor` supports various plugins to enhance its functionality. Here are some commonly used plugins:
+- **CodeBlock Plugin**: Enables syntax highlighting for code blocks.
+- **Youtube Plugin**: Allows embedding YouTube videos directly in the editor.
+
+To use a plugin, simply import it and include it in the `plugins` prop of the `MarkdownEditor` component.
+
+### Create Your Own Plugin
+You can create custom plugins to add specific features to the `MarkdownEditor`. A plugin is typically a function that takes the editor instance as an argument and modifies its behavior.
+
+```js
+import { MarkdownPlugin, EditorHelpers } from 'react-markdown-simple'
+
+export const CustomPlugin: MarkdownPlugin = {
+    name: 'Custom plugin', // Unique name for the plugin
+    icon: Icon, // Replace with your icon component
+    tooltip: 'My Custom Plugin', // Tooltip text
+    toolbarOrder: 1, // Position in the toolbar
+    showInToolbar: true, // Whether to show in the toolbar
+    transform: (content: string) => {
+
+        // Custom transformation logic
+        return content.replace(/!youtube\[(.*?)]\((.*?)\)/g, (_match, title, url) => {
+            return `<iframe width="560" height="315" src="${url}" title="${title}" frameborder="0" allowfullscreen></iframe>`
+        })
+    },
+
+    // Function to handle toolbar button click
+    onToolbarClick: (helpers: EditorHelpers) => {
+
+        // Open a dialog to get video title and URL
+        helpers.openDialog({
+            title: 'Embed YouTube Video',
+            fields: [
+                {
+                    key: 'title',
+                    label: 'Video Title',
+                    type: 'text',
+                    placeholder: 'Enter video title',
+                },
+                {
+                    key: 'url',
+                    label: 'YouTube URL',
+                    type: 'text',
+                    placeholder: 'https://www.youtube.com/watch?v=VIDEO_ID',
+                },
+            ],
+            // Callback when the dialog is confirmed
+            onConfirm: (data: Record<string, string>) => {
+                const markdown = `!youtube[${data.title}](${data.url})`
+
+                // Insert the generated markdown into the editor
+                helpers.insertText(markdown)
+            },
+        })
+    },
+}
+```
+
+This example plugin adds a toolbar button that opens a dialog for embedding YouTube videos. When the user fills out the form and confirms, the appropriate Markdown syntax is inserted into the editor.
+
+## Licensing
+The `MarkdownEditor` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.
+
