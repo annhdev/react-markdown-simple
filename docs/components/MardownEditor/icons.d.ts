@@ -1,0 +1,19 @@
+declare const Icons: {
+    Bold: () => import("react/jsx-runtime").JSX.Element;
+    Italic: () => import("react/jsx-runtime").JSX.Element;
+    Strike: () => import("react/jsx-runtime").JSX.Element;
+    Heading: () => import("react/jsx-runtime").JSX.Element;
+    Quote: () => import("react/jsx-runtime").JSX.Element;
+    List: () => import("react/jsx-runtime").JSX.Element;
+    ListOrdered: () => import("react/jsx-runtime").JSX.Element;
+    Check: () => import("react/jsx-runtime").JSX.Element;
+    Table: () => import("react/jsx-runtime").JSX.Element;
+    Image: () => import("react/jsx-runtime").JSX.Element;
+    Link: () => import("react/jsx-runtime").JSX.Element;
+    Code: () => import("react/jsx-runtime").JSX.Element;
+    Eye: () => import("react/jsx-runtime").JSX.Element;
+    EyeOff: () => import("react/jsx-runtime").JSX.Element;
+    Copy: () => import("react/jsx-runtime").JSX.Element;
+    CheckSimple: () => import("react/jsx-runtime").JSX.Element;
+};
+export default Icons;
