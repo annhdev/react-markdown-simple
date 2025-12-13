@@ -1,13 +1,19 @@
-import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-BbTegHTr.js";import{n as t}from"./lib-D3mP90tJ.js";import"./chunk-CYSK6WYR-C80qzwEh.js";import"./theming-CW7ktP7Q.js";import"./react-dom-CGq5NXoE.js";import"./chunk-P4F4UVXX-RuN1CqNa.js";import"./chunk-45UGUKRX-Xv6ZBdsV.js";import"./components-CcWMWdwW.js";import{n,o as r}from"./blocks-O9-gyLOd.js";import{i,t as a}from"./index.stories-BZeF5gIx.js";var o=e(),s=({headers:e,rows:t})=>(0,o.jsxs)(`table`,{children:[(0,o.jsx)(`thead`,{children:(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`th`,{children:e},t))})}),(0,o.jsx)(`tbody`,{children:t.map((e,t)=>(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`td`,{children:e},t))},t))})]}),c=s;s.__docgenInfo={description:``,methods:[],displayName:`Table`,props:{headers:{required:!0,tsType:{name:`Array`,elements:[{name:`string`}],raw:`string[]`},description:``},rows:{required:!0,tsType:{name:`Array`,elements:[{name:`Array`,elements:[{name:`string`}],raw:`string[]`}],raw:`string[][]`},description:``}}};function l(e){let s={code:`code`,h1:`h1`,h2:`h2`,h3:`h3`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,ul:`ul`,...t(),...e.components};return i||d(`MarkdownEditorPreview`,!1),a||d(`MarkdownEditorPreview.Demo`,!0),(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{title:`MarkdownEditor Preview`,of:i}),`
+import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-qchv1HR9.js";import{n as t}from"./lib-8tBKILd7.js";import"./chunk-CYSK6WYR-C80qzwEh.js";import"./theming-C4y4gLil.js";import"./react-dom-B4ZgywoH.js";import"./chunk-P4F4UVXX-BLzNmwgv.js";import"./chunk-45UGUKRX-Xv6ZBdsV.js";import"./components-Cl5u-62V.js";import{n,o as r}from"./blocks-DX0hTQtU.js";import{i,t as a}from"./index.stories-C_Zn_IY_.js";var o=e(),s=({headers:e,rows:t})=>(0,o.jsxs)(`table`,{children:[(0,o.jsx)(`thead`,{children:(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`th`,{children:e},t))})}),(0,o.jsx)(`tbody`,{children:t.map((e,t)=>(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`td`,{children:e},t))},t))})]}),c=s;s.__docgenInfo={description:``,methods:[],displayName:`Table`,props:{headers:{required:!0,tsType:{name:`Array`,elements:[{name:`string`}],raw:`string[]`},description:``},rows:{required:!0,tsType:{name:`Array`,elements:[{name:`Array`,elements:[{name:`string`}],raw:`string[]`}],raw:`string[][]`},description:``}}};function l(e){let s={a:`a`,code:`code`,h1:`h1`,h2:`h2`,h3:`h3`,img:`img`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,ul:`ul`,...t(),...e.components};return i||d(`MarkdownEditorPreview`,!1),a||d(`MarkdownEditorPreview.Demo`,!0),(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{title:`MarkdownEditor Preview`,of:i}),`
 `,(0,o.jsx)(s.h1,{id:`markdown-editor-component`,children:`Markdown Editor Component`}),`
+`,(0,o.jsx)(s.p,{children:(0,o.jsx)(s.img,{src:`./markdown-editor-demo.png`,alt:`Demo`})}),`
+`,(0,o.jsxs)(s.p,{children:[(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/v/react-markdown-simple`,alt:`npm`})}),`\r
+`,(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/dm/react-markdown-simple`,alt:`npm`})}),`\r
+`,(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/l/react-markdown-simple`,alt:`NPM`})})]}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component provides a user-friendly interface for writing and previewing Markdown content. It includes features such as syntax highlighting, live preview, and toolbar options for common formatting actions.`]}),`
 `,(0,o.jsx)(s.h2,{id:`features`,children:`Features`}),`
 `,(0,o.jsxs)(s.ul,{children:[`
-`,(0,o.jsx)(s.li,{children:`Syntax Highlighting`}),`
+`,(0,o.jsx)(s.li,{children:`Syntax Highlighting (Very simple)`}),`
 `,(0,o.jsx)(s.li,{children:`Live Preview`}),`
 `,(0,o.jsx)(s.li,{children:`Toolbar with Formatting Options`}),`
-`,(0,o.jsx)(s.li,{children:`Customizable Themes`}),`
+`,(0,o.jsx)(s.li,{children:`Customizable Themes and Fonts (Dark Mode Support)`}),`
 `,(0,o.jsx)(s.li,{children:`Easy Integration with React Applications`}),`
+`,(0,o.jsx)(s.li,{children:`Integration with Tailwind CSS or other CSS frameworks`}),`
+`,(0,o.jsx)(s.li,{children:`Plugin System for Extending Functionality`}),`
 `]}),`
 `,(0,o.jsx)(s.h2,{id:`quick-start`,children:`Quick Start`}),`
 `,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{children:`npm i react-markdown-simple
@@ -15,6 +21,9 @@ import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-BbTegHTr.js";im
 `,(0,o.jsxs)(s.p,{children:[`To use the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.`]}),`
 `,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{className:`language-jsx`,children:`import React, { useState } from 'react';\r
 import { MarkdownEditor } from 'react-markdown-simple';\r
+\r
+import 'react-markdown-simple/style.min.css';\r
+\r
 const App = () => {\r
   const [content, setContent] = useState('# Hello, Markdown!');\r
 \r
@@ -25,6 +34,9 @@ const App = () => {\r
       plugins={[]}\r
       scrollSync={true}\r
       preview={true}\r
+      readOnly={false}\r
+      customFonts={[]}\r
+      defaultFont={'monospace'}\r
     />\r
   );\r
 };\r
@@ -33,7 +45,7 @@ export default App;
 `,(0,o.jsx)(s.h2,{id:`example`,children:`Example`}),`
 `,(0,o.jsx)(n,{children:(0,o.jsx)(a,{})}),`
 `,(0,o.jsx)(s.h2,{id:`props`,children:`Props`}),`
-`,(0,o.jsx)(c,{headers:[`Prop Name`,`Type`,`Default`,`Description`],rows:[[`value`,`string`,``,`The initial Markdown content.`],[`onChange`,`function`,`(value) => void`,`Callback function when content changes.`],[`scrollSync`,`boolean`,`true`,`If true, synchronizes scrolling between editor and preview.`],[`preview`,`boolean`,`true`,`If true, shows the live preview pane.`],[`plugins`,`array`,`[]`,`Array of plugins to extend editor functionality.`],[`className`,`string`,`''`,`Additional CSS class for custom styling.`]]}),`
+`,(0,o.jsx)(c,{headers:[`Prop Name`,`Type`,`Default`,`Description`],rows:[[`value`,`string`,``,`The initial Markdown content.`],[`onChange`,`function`,`(value) => void`,`Callback function when content changes.`],[`scrollSync`,`boolean`,`true`,`If true, synchronizes scrolling between editor and preview.`],[`preview`,`boolean`,`true`,`If true, shows the live preview pane.`],[`readOnly`,`boolean`,`false`,`If true, makes the editor read-only.`],[`customFonts`,`array`,`[]`,`Array of custom fonts available in the editor.`],[`defaultFont`,`string`,`'monospace'`,`The default font for the editor content.`],[`plugins`,`array`,`[]`,`Array of plugins to extend editor functionality.`],[`className`,`string`,`''`,`Additional CSS class for custom styling.`]]}),`
 `,(0,o.jsx)(s.h2,{id:`plugins`,children:`Plugins`}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` supports various plugins to enhance its functionality. Here are some commonly used plugins:`]}),`
 `,(0,o.jsxs)(s.ul,{children:[`
@@ -91,5 +103,29 @@ export const CustomPlugin: MarkdownPlugin = {\r
 }
 `})}),`
 `,(0,o.jsx)(s.p,{children:`This example plugin adds a toolbar button that opens a dialog for embedding YouTube videos. When the user fills out the form and confirms, the appropriate Markdown syntax is inserted into the editor.`}),`
+`,(0,o.jsx)(s.h2,{id:`customization`,children:`Customization`}),`
+`,(0,o.jsxs)(s.p,{children:[`You can customize the appearance of the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `,(0,o.jsx)(s.code,{children:`className`}),` prop for adding custom classes.`]}),`
+`,(0,o.jsx)(s.p,{children:`If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you.`}),`
+`,(0,o.jsx)(s.p,{children:`You can use our styles or not, simply by removing the import statement:`}),`
+`,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{className:`language-jsx`,children:`import 'react-markdown-simple/style.min.css';
+`})}),`
+`,(0,o.jsx)(s.p,{children:`and then apply your own styles using Tailwind CSS or any other CSS framework.`}),`
+`,(0,o.jsx)(s.h3,{id:`dark-mode`,children:`Dark Mode`}),`
+`,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` supports dark mode for better readability in low-light environments. You can enable dark mode by applying a dark theme CSS class to the editor container or by using a theme provider in your application.`]}),`
+`,(0,o.jsxs)(s.ul,{children:[`
+`,(0,o.jsxs)(s.li,{children:[`Add `,(0,o.jsx)(s.code,{children:`dark`}),` class to the editor container:`]}),`
+`]}),`
+`,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{className:`language-html`,children:`<div className="markdown-editor dark">\r
+  <MarkdownEditor ... />\r
+</div>
+`})}),`
+`,(0,o.jsx)(s.p,{children:`or`}),`
+`,(0,o.jsxs)(s.ul,{children:[`
+`,(0,o.jsxs)(s.li,{children:[`Add `,(0,o.jsx)(s.code,{children:`data-mode="dark"`}),` attribute to the editor container:`]}),`
+`]}),`
+`,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{className:`language-html`,children:`<div className="markdown-editor" data-mode="dark">\r
+  <MarkdownEditor ... />\r
+</div>
+`})}),`
 `,(0,o.jsx)(s.h2,{id:`licensing`,children:`Licensing`}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.`]})]})}function u(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,o.jsx)(n,{...e,children:(0,o.jsx)(l,{...e})}):l(e)}function d(e,t){throw Error(`Expected `+(t?`component`:`object`)+" `"+e+"` to be defined: you likely forgot to import, pass, or provide it.")}export{u as default};

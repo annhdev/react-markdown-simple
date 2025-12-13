@@ -38,7 +38,7 @@ export const parseMarkdown = (text: string, extraPlugins: MarkdownPlugin[] = [])
 
         // Xử lý đóng/mở blockquote
         while (blockquoteLevel < currentQuoteLevel) {
-            output.push(`<blockquote class="blockquote border-l-4 border-gray-300 pl-4 py-1 my-2 italic text-gray-600 bg-gray-50 ml-${blockquoteLevel * 2}" style="margin-left: calc(${blockquoteLevel} * 0.25rem)">`)
+            output.push(`<blockquote class="blockquote border-gray-300 pl-4 py-1 my-2 italic text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-500 ml-${blockquoteLevel * 2}" style="margin-left: calc(${blockquoteLevel} * 0.25rem)">`)
             blockquoteLevel++
         }
         while (blockquoteLevel > currentQuoteLevel) {
@@ -171,7 +171,7 @@ export const parseMarkdown = (text: string, extraPlugins: MarkdownPlugin[] = [])
         for (let i = 2; i < rawRows.length; i++) {
             const cells = rawRows[i]
             if (cells.length === 0) continue
-            tableHtml += `<tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100">`
+            tableHtml += `<tr class="${i % 2 === 0 ? 'bg-white dark:bg-gray-600' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-gray-100 dark:hover:bg-gray-800!">`
             cells.forEach((c: string) => {
                 tableHtml += `<td class="border border-gray-300 px-4 py-2">${c.trim()}</td>`
             })
@@ -194,7 +194,7 @@ export const parseInline = (text: string) => {
     return text
         .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>')
         .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-        .replace(/`([^`]+)`/g, '<code class="bg-gray-200 px-2 rounded text-red-500 font-mono text-sm">$1</code>')
+        .replace(/`([^`]+)`/g, '<code class="bg-gray-200 dark:bg-gray-400 px-2 rounded text-red-500 font-mono text-sm">$1</code>')
         .replace(/!\[(.*?)]\((.*?)\)/g, '<img alt="$1" src="$2" class="max-w-full h-auto rounded shadow my-2" />')
         .replace(/\[(.*?)]\((.*?)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>')
         .replace(/~~(.*?)~~/g, '<del class="text-gray-400">$1</del>')

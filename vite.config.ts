@@ -10,6 +10,7 @@ import dts from 'vite-plugin-dts'
 import tailwindcss from '@tailwindcss/vite'
 import storybookTest from '@storybook/addon-vitest/vitest-plugin'
 import { playwright } from '@vitest/browser-playwright'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vite.dev/config/
 
@@ -29,6 +30,14 @@ export default defineConfig({
             tsconfigPath: 'tsconfig.app.json',
         }),
         tailwindcss(),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'src/components/MardownEditor/style.min.css',
+                    dest: './',
+                },
+            ],
+        }),
     ],
     build: {
         lib: {
@@ -36,7 +45,7 @@ export default defineConfig({
             formats: ['es'],
         },
         rolldownOptions: {
-            external: ['react', 'react-dom', 'react/jsx-runtime', '**/*.stories.tsx', '**/*.stories.ts', 'src/stories', '.storybook'],
+            external: ['react', 'react-dom', 'react/jsx-runtime', '**/*.stories.tsx', '**/*.stories.ts', 'src/stories', '.storybook', 'src/**/*.css'],
             input: Object.fromEntries(
                 globSync(['src/components/**/index.tsx', 'src/main.ts']).map((file) => {
                     // This remove `src/` as well as the file extension from each

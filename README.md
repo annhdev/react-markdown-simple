@@ -1,5 +1,7 @@
 # Markdown Editor Component
 
+![Demo](./public/markdown-editor-demo.png)
+
 [![npm](https://img.shields.io/npm/v/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)
 [![npm](https://img.shields.io/npm/dm/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)
 [![NPM](https://img.shields.io/npm/l/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)
@@ -7,11 +9,13 @@
 The `MarkdownEditor` component provides a user-friendly interface for writing and previewing Markdown content. It includes features such as syntax highlighting, live preview, and toolbar options for common formatting actions.
 
 ## Features
-- Syntax Highlighting
+- Syntax Highlighting (Very simple)
 - Live Preview
 - Toolbar with Formatting Options
-- Customizable Themes
+- Customizable Themes and Fonts (Dark Mode Support)
 - Easy Integration with React Applications
+- Integration with Tailwind CSS or other CSS frameworks
+- Plugin System for Extending Functionality
 
 ## Quick Start
 
@@ -22,6 +26,9 @@ To use the `MarkdownEditor` component, import it into your React application and
 ```jsx
 import React, { useState } from 'react';
 import { MarkdownEditor } from 'react-markdown-simple';
+
+import 'react-markdown-simple/style.min.css';
+
 const App = () => {
   const [content, setContent] = useState('# Hello, Markdown!');
 
@@ -32,11 +39,15 @@ const App = () => {
       plugins={[]}
       scrollSync={true}
       preview={true}
+      readOnly={false}
+      customFonts={[]}
+      defaultFont={'monospace'}
     />
   );
 };
 export default App;
 ```
+
 
 ## Example
 
@@ -50,6 +61,9 @@ You can see a live demo of the component [here](https://annhdev.github.io/react-
 | onChange       | function | (value) => void  | Callback function when content changes. |
 | scrollSync     | boolean  | true      | If true, synchronizes scrolling between editor and preview. |
 | preview        | boolean  | true      | If true, shows the live preview pane.          |
+| readOnly        | boolean  | true      | If true, makes the editor read-only.          |
+| customFonts   | array    | []        | Array of custom font family names to use.      |
+| defaultFont   | string   | 'monospace' | Default font family for the editor.            |
 | plugins       | array    | []        | Array of plugins to extend editor functionality. |
 | className     | string   | ''        | Additional CSS class for custom styling. |
 
@@ -113,6 +127,34 @@ export const CustomPlugin: MarkdownPlugin = {
 ```
 
 This example plugin adds a toolbar button that opens a dialog for embedding YouTube videos. When the user fills out the form and confirms, the appropriate Markdown syntax is inserted into the editor.
+
+## Customization
+You can customize the appearance of the `MarkdownEditor` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `className` prop for adding custom classes.
+
+If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you.
+
+You can use our styles or not, simply by removing the import statement:
+```jsx
+import 'react-markdown-simple/style.min.css';
+```
+and then apply your own styles using Tailwind CSS or any other CSS framework.
+
+### Dark Mode
+The `MarkdownEditor` supports dark mode for better readability in low-light environments. You can enable dark mode by applying a dark theme CSS class to the editor container or by using a theme provider in your application.
+
+- Add `dark` class to the editor container:
+```html
+<div className="markdown-editor dark">
+  <MarkdownEditor ... />
+</div>
+```
+or
+- Add `data-mode="dark"` attribute to the editor container:
+```html
+<div className="markdown-editor" data-mode="dark">
+  <MarkdownEditor ... />
+</div>
+```
 
 ## Licensing
 The `MarkdownEditor` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.

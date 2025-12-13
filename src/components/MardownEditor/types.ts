@@ -7,6 +7,14 @@ export interface MarkdownEditorProps {
     plugins?: MarkdownPlugin[]
     scrollSync?: boolean
     preview?: boolean
+    readOnly?: boolean
+    customFonts?: FontOption[]
+    defaultFont?: string
+}
+
+export interface FontOption {
+    label: string
+    value: string
 }
 
 export interface DialogField {

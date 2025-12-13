@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import './style.min.css'
-// import './style.css'
+// import './style.min.css'
 
 import InsertDialog from '@/components/MardownEditor/components/InsertDialog'
-import type { CursorPosition, DialogConfig, DialogField, MarkdownEditorProps } from '@/components/MardownEditor/types'
+import type { CursorPosition, DialogConfig, DialogField, FontOption, MarkdownEditorProps } from '@/components/MardownEditor/types'
 
 import ToolButton from './components/ToolButton'
 import Icons from './icons'
@@ -21,9 +20,38 @@ import { highlightMarkdownSource } from '@/components/MardownEditor/utils/markdo
  * />
  */
 
-const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollSync = true, preview = true }: MarkdownEditorProps) => {
+// 1. DEFINE FONT OPTIONS
+// Note: For fonts like 'Fira Code' to work, you must load them in your global CSS
+const FONT_OPTIONS: FontOption[] = [
+    { label: 'Monospace', value: 'monospace' },
+    { label: 'Cascadia Mono', value: '"Cascadia Mono"' },
+    { label: 'Roboto Mono', value: '"Roboto Mono"' },
+    { label: 'Fira Code', value: '"Fira Code"' },
+    { label: 'Source Code Pro', value: '"Source Code Pro"' },
+    { label: 'JetBrains Mono', value: '"JetBrains Mono"' },
+    { label: 'Noto Sans Mono', value: '"Noto Sans Mono"' },
+    { label: 'Oxygen Mono', value: '"Oxygen Mono"' },
+    { label: 'IBM Plex Mono', value: '"IBM Plex Mono"' },
+    { label: 'Ubuntu Mono', value: '"Ubuntu Mono"' },
+    { label: 'SF Mono (Mac Os)', value: '"SF Mono"' },
+]
+
+const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollSync = true, preview = true, readOnly = false, customFonts = [], defaultFont = 'monospace' }: MarkdownEditorProps) => {
     const [showPreview, setShowPreview] = useState(preview)
     const [htmlContent, setHtmlContent] = useState('')
+
+    // Add custom fonts options if not already present
+    useEffect(() => {
+        customFonts.forEach((font) => {
+            if (!FONT_OPTIONS.find((opt) => opt.value === font.value)) {
+                FONT_OPTIONS.push(font)
+            }
+        })
+    }, [customFonts])
+
+    // Font State
+    const [currentFont, setCurrentFont] = useState<string>(defaultFont)
+
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const preRef = useRef<HTMLPreElement>(null)
     const previewRef = useRef<HTMLDivElement>(null)
@@ -94,20 +122,20 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
     // --- SCROLL SYNC ---
     const handleScroll = useCallback(
         (source: 'editor' | 'preview') => {
-            if (!isScrollSynced) return
             const editor = textareaRef.current
             const preview = previewRef.current
             const pre = preRef.current
 
-            if (!pre || !editor || !preview) return
+            if (!editor) return
 
             if (pre) {
                 pre.scrollTop = editor.scrollTop
                 pre.scrollLeft = editor.scrollLeft
             }
 
-            if (source === 'editor') {
+            if (!isScrollSynced) return
 
+            if (preview && source === 'editor') {
                 const percentage = editor.scrollTop / (editor.scrollHeight - editor.clientHeight)
                 preview.scrollTop = percentage * (preview.scrollHeight - preview.clientHeight)
             }
@@ -268,60 +296,96 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
     }
 
     return (
-        <div className={`editor-container flex flex-col border border-gray-200 rounded-lg bg-white shadow-sm overflow-hidden h-150 ${className}`}>
+        <div className={`editor-container flex flex-col border border-gray-200 dark:border-gray-500 rounded-lg bg-white dark:bg-slate-800 shadow-sm overflow-hidden h-150 font-sans ${className}`}>
             {/* 1. RENDER DYNAMIC DIALOG */}
             <InsertDialog isOpen={dialogConfig.isOpen} title={dialogConfig.title} fields={dialogConfig.fields} onClose={() => setDialogConfig((prev) => ({ ...prev, isOpen: false }))} onConfirm={dialogConfig.onConfirm} />
 
             {/* 2. TOOLBAR */}
-            <div className='header-bar flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50 select-none'>
+            <div className='header-bar flex items-center justify-between gap-3 px-3 py-2 border-b border-gray-200 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 select-none'>
                 {/* Left: Formatting Actions */}
-                <div className='left-tools flex items-center gap-1 overflow-x-auto scrollbar-hide'>
-                    <ToolButton icon={<Icons.Heading />} onClick={() => insertText('## ')} tooltip='Heading' />
-                    <ToolButton icon={<Icons.Bold />} onClick={() => insertText('**', '**')} tooltip='Bold' />
-                    <ToolButton icon={<Icons.Italic />} onClick={() => insertText('*', '*')} tooltip='Italic' />
-                    <ToolButton icon={<Icons.Strike />} onClick={() => insertText('~~', '~~')} tooltip='Strikethrough' />
-                    <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                    <ToolButton icon={<Icons.Quote />} onClick={() => insertText('> ')} tooltip='Blockquote' />
-                    <ToolButton icon={<Icons.List />} onClick={() => insertText('* ')} tooltip='List' />
-                    <ToolButton icon={<Icons.ListOrdered />} onClick={() => insertText('1. ')} tooltip='Ordered List' />
-                    <ToolButton icon={<Icons.Check />} onClick={() => insertText('- [ ] ')} tooltip='Task' />
-                    <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                    <ToolButton icon={<Icons.Table />} onClick={() => insertText(`\n| Header | Header |\n| --- | --- |\n| Cell | Cell |\n`)} tooltip='Table' />
-                    {/*<ToolButton icon={<Icons.Image />} onClick={() => insertText('![Alt](', ')')} tooltip='Image' />*/}
-                    {/*<ToolButton icon={<Icons.Link />} onClick={() => insertText('[Link](', ')')} tooltip='Link' />*/}
-                    <ToolButton icon={<Icons.Image />} onClick={handleImageClick} tooltip='Image' />
-                    <ToolButton icon={<Icons.Link />} onClick={handleLinkClick} tooltip='Link' />
-                    <ToolButton icon={<Icons.Code />} onClick={() => insertText('```\n', '\n```')} tooltip='Code Block' />
+                <div className='left-tools flex items-center gap-1 p-1 overflow-x-auto scrollbar-hide'>
+                    {!readOnly ? (
+                        <>
+                            <ToolButton icon={<Icons.Heading />} onClick={() => insertText('## ')} tooltip='Heading' />
+                            <ToolButton icon={<Icons.Bold />} onClick={() => insertText('**', '**')} tooltip='Bold' />
+                            <ToolButton icon={<Icons.Italic />} onClick={() => insertText('*', '*')} tooltip='Italic' />
+                            <ToolButton icon={<Icons.Strike />} onClick={() => insertText('~~', '~~')} tooltip='Strikethrough' />
+                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
+                            <div className='font-selector relative group flex items-center'>
+                                <span className='font-selector-label text-xs text-gray-400 font-bold mr-1'>FONT:</span>
+                                <div className='select-input relative'>
+                                    <select
+                                        className='appearance-none bg-transparent hover:bg-gray-100 text-gray-600 text-xs font-medium py-1.5 pl-2 pr-6 rounded cursor-pointer focus:outline-1 focus:outline-blue-400 border border-transparent dark:border-gray-500 hover:border-gray-200 transition-colors'
+                                        value={currentFont}
+                                        onChange={(e) => setCurrentFont(e.target.value)}
+                                        title='Change Editor Font'
+                                    >
+                                        {FONT_OPTIONS.map((opt) => (
+                                            <option key={opt.value} value={opt.value}>
+                                                {opt.label} {opt.value === defaultFont ? '(Default)' : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {/* Custom Arrow Icon */}
+                                    <div className='custom-arrow pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-gray-400'>
+                                        <svg className='fill-current size-3' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'>
+                                            <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
+                            <ToolButton icon={<Icons.Quote />} onClick={() => insertText('> ')} tooltip='Blockquote' />
+                            <ToolButton icon={<Icons.List />} onClick={() => insertText('* ')} tooltip='List' />
+                            <ToolButton icon={<Icons.ListOrdered />} onClick={() => insertText('1. ')} tooltip='Ordered List' />
+                            <ToolButton icon={<Icons.Check />} onClick={() => insertText('- [ ] ')} tooltip='Task' />
+                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
+                            <ToolButton icon={<Icons.Table />} onClick={() => insertText(`\n| Header | Header |\n| --- | --- |\n| Cell | Cell |\n`)} tooltip='Table' />
+                            {/*<ToolButton icon={<Icons.Image />} onClick={() => insertText('![Alt](', ')')} tooltip='Image' />*/}
+                            {/*<ToolButton icon={<Icons.Link />} onClick={() => insertText('[Link](', ')')} tooltip='Link' />*/}
+                            <ToolButton icon={<Icons.Image />} onClick={handleImageClick} tooltip='Image' />
+                            <ToolButton icon={<Icons.Link />} onClick={handleLinkClick} tooltip='Link' />
+                            <ToolButton icon={<Icons.Code />} onClick={() => insertText('```\n', '\n```')} tooltip='Code Block' />
 
-                    <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                    {allPlugins
-                        .sort((p1, p2) => (p1.toolbarOrder && p2.toolbarOrder ? (p1.toolbarOrder > p2.toolbarOrder ? 1 : -1) : p1.name > p2.name ? 1 : -1)) // Sort by toolbarOrder, then name
-                        .map((plugin) =>
-                            plugin.showInToolbar ? (
-                                <ToolButton
-                                    key={plugin.name}
-                                    icon={plugin.icon}
-                                    onClick={() => {
-                                        if (plugin.onToolbarClick) {
-                                            // Pass helpers to the plugin
-                                            plugin.onToolbarClick({ openDialog, insertText })
-                                        }
-                                    }}
-                                    tooltip={plugin.tooltip ? plugin.tooltip : plugin.name.charAt(0).toUpperCase() + plugin.name.slice(1)} // Fallback to name if no tooltip
-                                />
-                            ) : null
-                        )}
+                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
+                            {allPlugins
+                                .sort((p1, p2) => (p1.toolbarOrder && p2.toolbarOrder ? (p1.toolbarOrder > p2.toolbarOrder ? 1 : -1) : p1.name > p2.name ? 1 : -1)) // Sort by toolbarOrder, then name
+                                .map((plugin) =>
+                                    plugin.showInToolbar ? (
+                                        <ToolButton
+                                            key={plugin.name}
+                                            icon={plugin.icon}
+                                            onClick={() => {
+                                                if (plugin.onToolbarClick) {
+                                                    // Pass helpers to the plugin
+                                                    plugin.onToolbarClick({ openDialog, insertText })
+                                                }
+                                            }}
+                                            tooltip={plugin.tooltip ? plugin.tooltip : plugin.name.charAt(0).toUpperCase() + plugin.name.slice(1)} // Fallback to name if no tooltip
+                                        />
+                                    ) : null
+                                )}
+                        </>
+                    ) : (
+                        <div className='read-only-title text-sm text-gray-600'>Read-Only Mode</div>
+                    )}
                 </div>
 
                 {/* Right: View Options */}
-                <div className='right-tools flex items-center gap-3 pl-4 border-l border-gray-300'>
+                <div className='right-tools flex items-center gap-3 p-1 pl-4 border-l border-gray-300'>
                     <div className='sync-switch flex items-center gap-2 text-xs font-medium text-gray-600'>
                         <span>Scroll Sync</span>
-                        <div data-synced={isScrollSynced ? 'true' : 'false'} className={`switch cursor-pointer w-8 h-4 flex items-center rounded-full p-1 duration-300 ${isScrollSynced ? 'bg-blue-500' : 'bg-gray-300'}`} onClick={() => setIsScrollSynced(!isScrollSynced)}>
-                            <div className={`knob bg-white w-3 h-3 rounded-full shadow-md transform duration-300 ${isScrollSynced ? 'translate-x-4' : ''}`} />
+                        <div className={'switch relative'} onClick={() => setIsScrollSynced(!isScrollSynced)}>
+                            <input type={'checkbox'} checked={isScrollSynced} className={'peer w-8 h-4 rounded-full p-1 appearance-none bg-gray-300 checked:bg-blue-500 focus:outline-1 focus:outline-blue-400'} />
+                            <div className={`slider absolute top-0.5 left-0.5 peer-checked:translate-x-4 bg-white w-3 h-3 rounded-full shadow-md transform duration-300`} />
                         </div>
                     </div>
-                    <button data-preview={showPreview ? 'true' : 'false'} onClick={() => setShowPreview(!showPreview)} className={`eye-button p-1.5 rounded hover:bg-gray-200 ${!showPreview ? 'bg-gray-200 text-blue-600' : 'text-gray-500'}`} title={showPreview ? 'Hide Preview' : 'Show Preview'}>
+                    <button
+                        data-preview={showPreview ? 'true' : 'false'}
+                        onClick={() => setShowPreview(!showPreview)}
+                        className={`eye-button p-1.5 rounded hover:bg-gray-200 ring-0 focus:outline-1 focus:outline-blue-400 ${!showPreview ? 'bg-gray-200 text-blue-600' : 'text-gray-500'}`}
+                        title={showPreview ? 'Hide Preview' : 'Show Preview'}
+                    >
                         {showPreview ? <Icons.Eye /> : <Icons.EyeOff />}
                     </button>
                 </div>
@@ -330,16 +394,32 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
             {/* 3. EDITOR AREA */}
             <div className='editor-area flex-1 flex overflow-hidden'>
                 {/* Input Pane */}
-                <div data-preview={showPreview ? 'true' : 'false'} className={`editor-col relative flex flex-col h-full ${showPreview ? 'w-1/2 border-r border-gray-200' : 'w-full'}`}>
-                    <pre ref={preRef} className='' aria-hidden='true' dangerouslySetInnerHTML={{ __html: highlightedSource }} />
-                    <textarea ref={textareaRef} value={value} cols={100} onChange={(e) => onChange(e.target.value)} onScroll={() => handleScroll('editor')} onKeyDown={handleKeyDown} className={``} placeholder='Type your markdown here...' spellCheck={false} />
+                <div data-preview={showPreview ? 'true' : 'false'} className={`editor-col relative box-border flex flex-col ${showPreview ? 'w-1/2' : 'w-full'}`} style={{ fontFamily: currentFont }}>
+                    <pre
+                        ref={preRef}
+                        aria-hidden='true'
+                        dangerouslySetInnerHTML={{ __html: highlightedSource }}
+                        className={`relative bg-white dark:bg-slate-900 dark:text-gray-400 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto`}
+                    />
+                    <textarea
+                        ref={textareaRef}
+                        value={value}
+                        cols={100}
+                        onChange={(e) => onChange(e.target.value)}
+                        onScroll={() => handleScroll('editor')}
+                        onKeyDown={handleKeyDown}
+                        placeholder='Type your markdown here...'
+                        spellCheck={false}
+                        readOnly={readOnly}
+                        className={`absolute text-transparent bg-transparent caret-black z-10 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto ${showPreview ? 'border-r border-gray-200' : ''}`}
+                    />
                 </div>
 
                 {/* Preview Pane */}
                 {showPreview && (
-                    <div className='preview-col w-1/2 h-full flex flex-col box-border bg-gray-50'>
-                        <div className='preview-header px-3 py-1 bg-gray-100 border-b border-b-gray-200 text-xs text-gray-500 font-semibold uppercase tracking-wider'>Preview</div>
-                        <div ref={previewRef} className='preview flex-1 h-full box-border overflow-y-auto p-8 text-gray-800' dangerouslySetInnerHTML={{ __html: htmlContent }} />
+                    <div className={'preview-col w-1/2 h-full flex flex-col box-border bg-gray-50 dark:bg-slate-900 dark:text-gray-400'}>
+                        <div className={'preview-header px-3 py-1 bg-gray-100 dark:bg-gray-800 border-b border-b-gray-200 dark:border-b-gray-500 text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider'}>Preview</div>
+                        <div ref={previewRef} className={`preview flex-1 h-full box-border overflow-y-auto p-8 text-gray-800 dark:text-gray-200`} style={{ fontFamily: currentFont }} dangerouslySetInnerHTML={{ __html: htmlContent }} />
                     </div>
                 )}
             </div>

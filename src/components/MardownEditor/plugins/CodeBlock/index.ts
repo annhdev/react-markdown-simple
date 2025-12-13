@@ -15,8 +15,8 @@ export const CodeBlockPlugin: MarkdownPlugin = {
             const highlighted = highlightCode(trimmedCode, language)
 
             const blockHtml = `
-              <div class="codeblock-container my-4 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 shadow-sm">
-                <div class="codeblock-header flex items-center justify-between px-4 py-1.5 bg-gray-100 border-b border-gray-200">
+              <div class="codeblock-container my-4 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 dark:text-white shadow-sm">
+                <div class="codeblock-header flex items-center justify-between px-4 py-1.5 bg-gray-100 dark:bg-slate-700 border-b border-gray-200 dark:border-gray-500">
                    <span class="code-language text-xs font-semibold text-gray-500 uppercase">${language}</span>
                    <span class="buttons flex gap-1.5">
                       <span class="button w-2.5 h-2.5 rounded-full bg-red-400"></span>
@@ -25,7 +25,7 @@ export const CodeBlockPlugin: MarkdownPlugin = {
                    </span>
                 </div>
                 <div class="codeblock-body relative flex">
-                    <pre class="p-4 overflow-x-auto text-sm font-mono leading-relaxed text-gray-800"><code>${highlighted}</code></pre>
+                    <pre class="p-4 overflow-x-auto text-sm font-mono leading-relaxed text-gray-800 dark:text-gray-400"><code>${highlighted}</code></pre>
                     <div class="tools absolute top-1 right-1 flex items-center gap-2">
                       <button class="tool-button js-copy-btn flex items-center gap-1 px-2 py-1 rounded text-xs bg-gray-100 text-gray-500 hover:text-gray-800 transition-colors" title="Copy to clipboard">
                          <span class="icon-wrap">

@@ -9,9 +9,10 @@ export interface MarkdownEditorPreviewProps {
     plugins?: MarkdownPlugin[]
     scrollSync?: boolean
     preview?: boolean
+    readOnly?: boolean
 }
 
-const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrollSync = true, preview = true }: MarkdownEditorPreviewProps) => {
+const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrollSync = true, preview = true, readOnly = false }: MarkdownEditorPreviewProps) => {
     const [content, setContent] = useState<string>(value)
 
     return (
@@ -24,6 +25,7 @@ const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrol
             plugins={plugins}
             scrollSync={scrollSync}
             preview={preview}
+            readOnly={readOnly}
             className={className}
         />
     )
