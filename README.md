@@ -131,8 +131,14 @@ This example plugin adds a toolbar button that opens a dialog for embedding YouT
 ## Customization
 You can customize the appearance of the `MarkdownEditor` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `className` prop for adding custom classes.
 
-If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you.
+If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you. Some fonts are recommended for better code readability. You can include them in your Tailwind CSS configuration as follows:
+
 ```css
+@charset "UTF-8";
+
+/* Import custom fonts for better code readability */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Sans+Mono:wght@100..900&family=Oxygen+Mono&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @import "tailwindcss";
 
 /* Add this line so that TailwindCSS can detect your component markdown editor.*/
