@@ -1,2 +1,2 @@
-export {default as MardownEditor} from './components/MardownEditor'
-export * from './components/MardownEditor/types'
+export {default as MarkdownEditor} from './components/MarkdownEditor'
+export * from './components/MarkdownEditor/types'

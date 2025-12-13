@@ -29,11 +29,11 @@ export default defineConfig({
             exclude: ['**/*.stories.ts', '**/*.stories.tsx', 'src/stories', 'src/test', '**/*.test.tsx', '.storybook/**/*.ts', '.storybook/**/*.tsx'],
             tsconfigPath: 'tsconfig.app.json',
         }),
-        tailwindcss(),
+        tailwindcss({}),
         viteStaticCopy({
             targets: [
                 {
-                    src: 'src/components/MardownEditor/style.min.css',
+                    src: 'src/components/MarkdownEditor/style.min.css',
                     dest: './',
                 },
             ],

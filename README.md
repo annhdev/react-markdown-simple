@@ -132,6 +132,12 @@ This example plugin adds a toolbar button that opens a dialog for embedding YouT
 You can customize the appearance of the `MarkdownEditor` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `className` prop for adding custom classes.
 
 If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you.
+```css
+@import "tailwindcss";
+
+/* Add this line so that TailwindCSS can detect your component markdown editor.*/
+@source "../node_modules/react-markdown-simple";
+```
 
 You can use our styles or not, simply by removing the import statement:
 ```jsx

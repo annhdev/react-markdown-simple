@@ -1,8 +1,8 @@
-import type {MarkdownPlugin} from "@/components/MardownEditor/types";
+import type {MarkdownPlugin} from "@/components/MarkdownEditor/types";
 import { useState } from 'react'
-import MarkdownEditor from '@/components/MardownEditor'
+import MarkdownEditor from '@/components/MarkdownEditor'
 
-import '@/components/MardownEditor/style.min.css'
+import '@/components/MarkdownEditor/style.min.css'
 
 export interface MarkdownEditorPreviewProps {
     value: string

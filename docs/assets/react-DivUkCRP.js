@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-DsObyKEc.js";export{t as MDXProvider};

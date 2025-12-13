@@ -1,7 +1,7 @@
 {
     "name": "react-markdown-simple",
     "description": "Simple and efficient markdown rendering component for React applications.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "react",
         "markdown",
@@ -27,13 +27,21 @@
     "files": [
         "dist"
     ],
-    "exports": "./dist/main.js",
+    "exports": {
+        ".": {
+            "import": "./dist/main.js",
+            "types": "./dist/main.d.ts"
+        },
+        "./*": {
+            "import": "./dist/*"
+        }
+    },
     "module": "./dist/main.js",
     "types": "./dist/main.d.ts",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
-        "build:full": "tailwindcss -i ./src/components/MardownEditor/style.css -o ./src/components/MardownEditor/style.min.css --minify && storybook build -o docs && tsc -b && vite build",
+        "build:full": "tailwindcss -i ./src/components/MarkdownEditor/style.css -o ./src/components/MarkdownEditor/style.min.css --minify && storybook build -o docs && tsc -b && vite build",
         "lint": "eslint . --ext ts,tsx",
         "lint:fix": "eslint . --ext ts,tsx --fix",
         "format": "prettier --check .",
@@ -46,7 +54,7 @@
         "test:ui": "vitest --ui",
         "coverage": "vitest run --coverage",
         "prepublishOnly": "vitest run && npm run build",
-        "tailwind:build": "tailwindcss -i ./src/components/MardownEditor/style.css -o ./src/components/MardownEditor/style.min.css --minify --watch"
+        "tailwind:build": "tailwindcss -i ./src/components/MarkdownEditor/style.css -o ./src/components/MarkdownEditor/style.min.css --minify --watch"
     },
     "peerDependencies": {
         "react": "^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
