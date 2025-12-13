@@ -1,1 +1,0 @@
-import{n as e,t}from"./lib-8tBKILd7.js";export{t as MDXProvider};

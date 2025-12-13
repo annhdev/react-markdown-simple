@@ -2,6 +2,8 @@ import type {MarkdownPlugin} from "@/components/MardownEditor/types";
 import { useState } from 'react'
 import MarkdownEditor from '@/components/MardownEditor'
 
+import '@/components/MardownEditor/style.min.css'
+
 export interface MarkdownEditorPreviewProps {
     value: string
     onChange: (value: string) => void

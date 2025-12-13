@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-// import './style.min.css'
-
 import InsertDialog from '@/components/MardownEditor/components/InsertDialog'
 import type { CursorPosition, DialogConfig, DialogField, FontOption, MarkdownEditorProps } from '@/components/MardownEditor/types'
 
