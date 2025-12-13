@@ -1,1 +1,0 @@
-import{S as e,l as t,u as n}from"./iframe-Cfic-xKO.js";var r=(0,e(n(),1).default)(2)(async(e,n)=>e===!1?n:t(n));export{r as formatter};

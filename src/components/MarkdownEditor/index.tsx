@@ -372,10 +372,10 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
                 <div className='right-tools flex items-center gap-3 p-1 pl-4 border-l border-gray-300'>
                     <div className='sync-switch flex items-center gap-2 text-xs font-medium text-gray-600'>
                         <span>Scroll Sync</span>
-                        <div className={'switch relative'} onClick={() => setIsScrollSynced(!isScrollSynced)}>
-                            <input type={'checkbox'} checked={isScrollSynced} className={'peer w-8 h-4 rounded-full p-1 appearance-none bg-gray-300 checked:bg-blue-500 focus:outline-1 focus:outline-blue-400'} />
+                        <label className={'switch relative'} aria-label={'Toggle Scroll Sync'}>
+                            <input type={'checkbox'} defaultChecked={isScrollSynced} onChange={() => setIsScrollSynced(!isScrollSynced)} className={'peer w-8 h-4 rounded-full p-1 appearance-none bg-gray-300 checked:bg-blue-500 focus:outline-1 focus:outline-blue-400'} />
                             <div className={`slider absolute top-0.5 left-0.5 peer-checked:translate-x-4 bg-white w-3 h-3 rounded-full shadow-md transform duration-300`} />
-                        </div>
+                        </label>
                     </div>
                     <button
                         data-preview={showPreview ? 'true' : 'false'}
