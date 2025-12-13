@@ -31,7 +31,6 @@ const FONT_OPTIONS: FontOption[] = [
     { label: 'Oxygen Mono', value: '"Oxygen Mono"' },
     { label: 'IBM Plex Mono', value: '"IBM Plex Mono"' },
     { label: 'Ubuntu Mono', value: '"Ubuntu Mono"' },
-    { label: 'SF Mono (Mac Os)', value: '"SF Mono"' },
 ]
 
 const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollSync = true, preview = true, readOnly = false, customFonts = [], defaultFont = 'monospace' }: MarkdownEditorProps) => {
@@ -397,7 +396,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
                         ref={preRef}
                         aria-hidden='true'
                         dangerouslySetInnerHTML={{ __html: highlightedSource }}
-                        className={`relative bg-white dark:bg-slate-900 dark:text-gray-400 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto`}
+                        className={`relative font-[inherit] bg-white dark:bg-slate-900 dark:text-gray-400 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto`}
                     />
                     <textarea
                         ref={textareaRef}
@@ -409,7 +408,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
                         placeholder='Type your markdown here...'
                         spellCheck={false}
                         readOnly={readOnly}
-                        className={`absolute text-transparent bg-transparent caret-black z-10 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto ${showPreview ? 'border-r border-gray-200' : ''}`}
+                        className={`absolute font-[inherit] text-transparent bg-transparent caret-black z-10 w-full h-full box-border inset-0 m-0 p-4 text-sm antialiased leading-relaxed border-none resize-none outline-none whitespace-pre-wrap overflow-auto ${showPreview ? 'border-r border-gray-200' : ''}`}
                     />
                 </div>
 
