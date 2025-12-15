@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import InsertDialog from '@/components/MarkdownEditor/components/InsertDialog'
-import type { CursorPosition, DialogConfig, DialogField, FontOption, MarkdownEditorProps } from '@/components/MarkdownEditor/types'
-
-import ToolButton from './components/ToolButton'
+import { InsertDialog, ToolButton } from './components'
 import Icons from './icons'
-import { CodeBlockPlugin, YouTubeEmbedPlugin } from './plugins'
-import { parseMarkdown } from './utils/parser_engine'
-import { highlightMarkdownSource } from '@/components/MarkdownEditor/utils/markdown_highlighter.ts'
+import { CodeBlockPlugin, RawImagePlugin, RawLinkPlugin,YouTubeEmbedPlugin } from './plugins'
+import type { CursorPosition, DialogConfig, DialogField, FontOption, MarkdownEditorProps } from './types'
+import { highlightMarkdownSource, parseMarkdown } from './utils'
 
 /** Example Usage:
  * <MarkdownEditor
@@ -70,7 +67,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
 
     // --- Merge default plugins ---
     const allPlugins = useMemo(() => {
-        const defaultPlugins = [CodeBlockPlugin, YouTubeEmbedPlugin]
+        const defaultPlugins = [CodeBlockPlugin, YouTubeEmbedPlugin, RawImagePlugin, RawLinkPlugin]
         return [...defaultPlugins, ...plugins]
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [plugins?.length])

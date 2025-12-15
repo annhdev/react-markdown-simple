@@ -8,7 +8,21 @@
 
 The `MarkdownEditor` component provides a user-friendly interface for writing and previewing Markdown content. It includes features such as syntax highlighting, live preview, and toolbar options for common formatting actions.
 
-## Features
+## Get Started
+
+- [Features](#features)
+- [Installation](#installation)
+- [Demo](#demo)
+- [Configuration](#configuration)
+- [Plugins](#plugins)
+- [Customization](#customization)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Support or Donate](#donate)
+- [Roadmap](#roadmap)
+- [License](#license)
+
+## <a id="features"></a>✨ Features
 - Syntax Highlighting (Very simple)
 - Live Preview
 - Toolbar with Formatting Options
@@ -17,7 +31,7 @@ The `MarkdownEditor` component provides a user-friendly interface for writing an
 - Integration with Tailwind CSS or other CSS frameworks
 - Plugin System for Extending Functionality
 
-## Quick Start
+## <a id="installation"></a>💎 Installation
 
 ```
 npm i react-markdown-simple
@@ -49,11 +63,11 @@ export default App;
 ```
 
 
-## Example
+## <a id="demo"></a>💎 Demo
 
-You can see a live demo of the component [here](https://annhdev.github.io/react-markdown-simple/)
+You can see a live demo of the component [Here](https://annhdev.github.io/react-markdown-simple/)
 
-## Props
+## <a id="configuration"></a>🔧 Configuration
 
 | Prop Name      | Type     | Default   | Description                             |
 |----------------|----------|-----------|-----------------------------------------|
@@ -67,10 +81,13 @@ You can see a live demo of the component [here](https://annhdev.github.io/react-
 | plugins       | array    | []        | Array of plugins to extend editor functionality. |
 | className     | string   | ''        | Additional CSS class for custom styling. |
 
-## Plugins
+## <a id="plugins"></a>🔌 Plugins
+
 The `MarkdownEditor` supports various plugins to enhance its functionality. Here are some commonly used plugins:
 - **CodeBlock Plugin**: Enables syntax highlighting for code blocks.
 - **Youtube Plugin**: Allows embedding YouTube videos directly in the editor.
+- **RawImage Plugin**: Allows embedding images using raw tag `img` in markdown.
+- **RawLink Plugin**: Allows embedding links using raw tag `a` in markdown.
 
 To use a plugin, simply import it and include it in the `plugins` prop of the `MarkdownEditor` component.
 
@@ -128,7 +145,7 @@ export const CustomPlugin: MarkdownPlugin = {
 
 This example plugin adds a toolbar button that opens a dialog for embedding YouTube videos. When the user fills out the form and confirms, the appropriate Markdown syntax is inserted into the editor.
 
-## Customization
+## <a id="customization"></a>🎨 Customization
 You can customize the appearance of the `MarkdownEditor` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `className` prop for adding custom classes.
 
 If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you. Some fonts are recommended for better code readability. You can include them in your Tailwind CSS configuration as follows:
@@ -168,5 +185,29 @@ or
 </div>
 ```
 
-## Licensing
+## <a id="contributing"></a>🤝 Contributing
+Contributions to the `MarkdownEditor` component are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. Pull requests are also encouraged.
+
+## <a id="troubleshooting"></a>🐛 Troubleshooting
+If you encounter any issues while using the `MarkdownEditor`, please check the following:
+- Ensure you have the latest version of the component installed.
+- Check the GitHub issues page for known problems and solutions.
+- If you still need help, feel free to open a new issue with detailed information about the problem.
+
+## ❤️ Support or Donate
+If you find this project useful and would like to support its development, consider making a donation. You can donate via [GitHub Sponsors](https://github.com/sponsors/annhdev).
+
+[![PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.me/annhdev)
+
+<img src="public/bmc_qr.png" width="200px" alt="Buy me a beer" />
+
+## <a id="roadmap"></a>🛣️ Roadmap
+Planned features and improvements for future releases include:
+- Additional Plugins for Extended Functionality
+- Enhanced Customization Options
+- Improved Performance and Responsiveness
+- Better Accessibility Support
+- Integration with More CSS Frameworks
+
+# <a id="license"></a>📄 License
 The `MarkdownEditor` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.

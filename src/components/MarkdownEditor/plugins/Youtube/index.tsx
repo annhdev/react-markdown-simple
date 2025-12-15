@@ -11,7 +11,7 @@ export const YouTubeEmbedPlugin: MarkdownPlugin = {
     name: 'youtube-embed',
     icon: youtubeIcon,
     tooltip: 'Embed YouTube Video',
-    toolbarOrder: 1,
+    toolbarOrder: 2,
     showInToolbar: true,
     transform: (content: string) => {
         return content.replace(/!yt\[(.*?)]\((.*?)\)/g, (_match, title, url) => {

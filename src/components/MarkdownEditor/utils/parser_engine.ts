@@ -1,4 +1,4 @@
-import type { MarkdownPlugin } from '@/components/MarkdownEditor/types'
+import type { MarkdownPlugin } from '../types'
 
 // --- MARKDOWN PARSER ENGINE ---
 // A simplified parser that runs a series of regex replacements.
@@ -6,13 +6,14 @@ import type { MarkdownPlugin } from '@/components/MarkdownEditor/types'
 export const parseMarkdown = (text: string, extraPlugins: MarkdownPlugin[] = []) => {
     let html = text || ''
 
-    // 1. ESCAPE HTML (For the rest of the document)
-    html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-
-    // 2. Run Plugin Transforms
+    // 1. Run Plugin Transforms
     extraPlugins.forEach((plugin) => {
         html = plugin.transform(html)
     })
+
+    // 2. ESCAPE HTML (For the rest of the document)
+    html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
 
     // 3. Line-by-Line Processor for Complex Structures (Lists, Blockquotes)
     const lines = html.split('\n')

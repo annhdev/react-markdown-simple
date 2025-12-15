@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import type { DialogField } from '@/components/MarkdownEditor/types'
 
@@ -12,22 +12,13 @@ export interface DynamicDialogProps {
 
 const InsertDialog = ({ isOpen, title, fields, onClose, onConfirm }: DynamicDialogProps) => {
     // Store form data in a dynamic object: { [key]: value }
-    const [formData, setFormData] = useState<Record<string, string>>({})
-
-    const updateFormData = useCallback((data: Record<string, string>) => {
-        setFormData(data)
-    }, [])
-
-    // Initialize default values when dialog opens
-    useEffect(() => {
-        if (isOpen) {
-            const defaults: Record<string, string> = {}
-            // fields.forEach((f) => {
-            //     defaults[f.key] = f.defaultValue || (f.options ? f.options[0].value : '')
-            // })
-            updateFormData(defaults)
-        }
-    }, [isOpen, fields, updateFormData])
+    const [formData, setFormData] = useState<Record<string, string>>(()=>{
+        const defaults: Record<string, string> = {}
+        fields.forEach((f) => {
+            defaults[f.key] = f.defaultValue || (f.options ? f.options[0].value : '')
+        })
+        return defaults
+    })
 
     const handleChange = (key: string, value: string) => {
         setFormData((prev) => ({ ...prev, [key]: value }))

@@ -1,11 +1,25 @@
-import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-BcF2EiBj.js";import{n as t}from"./lib-C8jEtyQk.js";import"./chunk-CYSK6WYR-C80qzwEh.js";import"./theming-9pgGzsrC.js";import"./react-dom-CKzFIVm5.js";import"./chunk-P4F4UVXX-CkNjLYt1.js";import"./chunk-45UGUKRX-Xv6ZBdsV.js";import"./components-DuRJv8fX.js";import{n,o as r}from"./blocks-BPS-f5f6.js";import{i,t as a}from"./index.stories-BP5e1hWY.js";var o=e(),s=({headers:e,rows:t})=>(0,o.jsxs)(`table`,{children:[(0,o.jsx)(`thead`,{children:(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`th`,{children:e},t))})}),(0,o.jsx)(`tbody`,{children:t.map((e,t)=>(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`td`,{children:e},t))},t))})]}),c=s;s.__docgenInfo={description:``,methods:[],displayName:`Table`,props:{headers:{required:!0,tsType:{name:`Array`,elements:[{name:`string`}],raw:`string[]`},description:``},rows:{required:!0,tsType:{name:`Array`,elements:[{name:`Array`,elements:[{name:`string`}],raw:`string[]`}],raw:`string[][]`},description:``}}};function l(e){let s={a:`a`,code:`code`,h1:`h1`,h2:`h2`,h3:`h3`,img:`img`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,ul:`ul`,...t(),...e.components};return i||d(`MarkdownEditorPreview`,!1),a||d(`MarkdownEditorPreview.Demo`,!0),(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{title:`MarkdownEditor Preview`,of:i}),`
+import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-FD6z3y5P.js";import{n as t}from"./lib-gVcneKlE.js";import"./chunk-CYSK6WYR-C80qzwEh.js";import"./theming-BQyIW_Zn.js";import"./react-dom-DJz9OAci.js";import"./chunk-P4F4UVXX-CW5o1B3v.js";import"./chunk-45UGUKRX-Xv6ZBdsV.js";import"./components-D7y74SoH.js";import{n,o as r}from"./blocks-DBGiyMAC.js";import{i,t as a}from"./index.stories-CKteTTlZ.js";var o=e(),s=({headers:e,rows:t})=>(0,o.jsxs)(`table`,{children:[(0,o.jsx)(`thead`,{children:(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`th`,{children:e},t))})}),(0,o.jsx)(`tbody`,{children:t.map((e,t)=>(0,o.jsx)(`tr`,{children:e.map((e,t)=>(0,o.jsx)(`td`,{children:e},t))},t))})]}),c=s;s.__docgenInfo={description:``,methods:[],displayName:`Table`,props:{headers:{required:!0,tsType:{name:`Array`,elements:[{name:`string`}],raw:`string[]`},description:``},rows:{required:!0,tsType:{name:`Array`,elements:[{name:`Array`,elements:[{name:`string`}],raw:`string[]`}],raw:`string[][]`},description:``}}};function l(e){let s={a:`a`,code:`code`,h1:`h1`,h2:`h2`,h3:`h3`,img:`img`,li:`li`,p:`p`,pre:`pre`,strong:`strong`,ul:`ul`,...t(),...e.components};return i||d(`MarkdownEditorPreview`,!1),a||d(`MarkdownEditorPreview.Demo`,!0),(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{title:`MarkdownEditor Preview`,of:i}),`
 `,(0,o.jsx)(s.h1,{id:`markdown-editor-component`,children:`Markdown Editor Component`}),`
 `,(0,o.jsx)(s.p,{children:(0,o.jsx)(s.img,{src:`./markdown-editor-demo.png`,alt:`Demo`})}),`
 `,(0,o.jsxs)(s.p,{children:[(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/v/react-markdown-simple`,alt:`npm`})}),`\r
 `,(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/dm/react-markdown-simple`,alt:`npm`})}),`\r
 `,(0,o.jsx)(s.a,{href:`https://www.npmjs.com/package/react-markdown-simple`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://img.shields.io/npm/l/react-markdown-simple`,alt:`NPM`})})]}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component provides a user-friendly interface for writing and previewing Markdown content. It includes features such as syntax highlighting, live preview, and toolbar options for common formatting actions.`]}),`
-`,(0,o.jsx)(s.h2,{id:`features`,children:`Features`}),`
+`,(0,o.jsx)(s.h2,{id:`get-started`,children:`Get Started`}),`
+`,(0,o.jsxs)(s.ul,{children:[`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#features`,children:`Features`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#installation`,children:`Installation`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#demo`,children:`Demo`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#configuration`,children:`Configuration`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#plugins`,children:`Plugins`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#customization`,children:`Customization`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#contributing`,children:`Contributing`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#troubleshooting`,children:`Troubleshooting`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#donate`,children:`Support or Donate`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#roadmap`,children:`Roadmap`})}),`
+`,(0,o.jsx)(s.li,{children:(0,o.jsx)(s.a,{href:`#license`,children:`License`})}),`
+`]}),`
+`,(0,o.jsxs)(s.h2,{id:`-features`,children:[(0,o.jsx)(`a`,{id:`features`}),`✨ Features`]}),`
 `,(0,o.jsxs)(s.ul,{children:[`
 `,(0,o.jsx)(s.li,{children:`Syntax Highlighting (Very simple)`}),`
 `,(0,o.jsx)(s.li,{children:`Live Preview`}),`
@@ -15,7 +29,7 @@ import"./preload-helper-DGWYlufl.js";import{t as e}from"./iframe-BcF2EiBj.js";im
 `,(0,o.jsx)(s.li,{children:`Integration with Tailwind CSS or other CSS frameworks`}),`
 `,(0,o.jsx)(s.li,{children:`Plugin System for Extending Functionality`}),`
 `]}),`
-`,(0,o.jsx)(s.h2,{id:`quick-start`,children:`Quick Start`}),`
+`,(0,o.jsxs)(s.h2,{id:`-installation`,children:[(0,o.jsx)(`a`,{id:`installation`}),`💎 Installation`]}),`
 `,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{children:`npm i react-markdown-simple
 `})}),`
 `,(0,o.jsxs)(s.p,{children:[`To use the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.`]}),`
@@ -42,15 +56,17 @@ const App = () => {\r
 };\r
 export default App;
 `})}),`
-`,(0,o.jsx)(s.h2,{id:`example`,children:`Example`}),`
+`,(0,o.jsxs)(s.h2,{id:`-demo`,children:[(0,o.jsx)(`a`,{id:`demo`}),`💎 Demo`]}),`
 `,(0,o.jsx)(n,{children:(0,o.jsx)(a,{})}),`
-`,(0,o.jsx)(s.h2,{id:`props`,children:`Props`}),`
+`,(0,o.jsxs)(s.h2,{id:`-configuration`,children:[(0,o.jsx)(`a`,{id:`configuration`}),`🔧 Configuration`]}),`
 `,(0,o.jsx)(c,{headers:[`Prop Name`,`Type`,`Default`,`Description`],rows:[[`value`,`string`,``,`The initial Markdown content.`],[`onChange`,`function`,`(value) => void`,`Callback function when content changes.`],[`scrollSync`,`boolean`,`true`,`If true, synchronizes scrolling between editor and preview.`],[`preview`,`boolean`,`true`,`If true, shows the live preview pane.`],[`readOnly`,`boolean`,`false`,`If true, makes the editor read-only.`],[`customFonts`,`array`,`[]`,`Array of custom fonts available in the editor.`],[`defaultFont`,`string`,`'monospace'`,`The default font for the editor content.`],[`plugins`,`array`,`[]`,`Array of plugins to extend editor functionality.`],[`className`,`string`,`''`,`Additional CSS class for custom styling.`]]}),`
-`,(0,o.jsx)(s.h2,{id:`plugins`,children:`Plugins`}),`
+`,(0,o.jsxs)(s.h2,{id:`-plugins`,children:[(0,o.jsx)(`a`,{id:`plugins`}),`🔌 Plugins`]}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` supports various plugins to enhance its functionality. Here are some commonly used plugins:`]}),`
 `,(0,o.jsxs)(s.ul,{children:[`
 `,(0,o.jsxs)(s.li,{children:[(0,o.jsx)(s.strong,{children:`CodeBlock Plugin`}),`: Enables syntax highlighting for code blocks.`]}),`
 `,(0,o.jsxs)(s.li,{children:[(0,o.jsx)(s.strong,{children:`Youtube Plugin`}),`: Allows embedding YouTube videos directly in the editor.`]}),`
+`,(0,o.jsxs)(s.li,{children:[(0,o.jsx)(s.strong,{children:`RawImage Plugin`}),`: Allows embedding images using raw tag `,(0,o.jsx)(s.code,{children:`img`}),` in markdown.`]}),`
+`,(0,o.jsxs)(s.li,{children:[(0,o.jsx)(s.strong,{children:`RawLink Plugin`}),`: Allows embedding links using raw tag `,(0,o.jsx)(s.code,{children:`a`}),` in markdown.`]}),`
 `]}),`
 `,(0,o.jsxs)(s.p,{children:[`To use a plugin, simply import it and include it in the `,(0,o.jsx)(s.code,{children:`plugins`}),` prop of the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component.`]}),`
 `,(0,o.jsx)(s.h3,{id:`create-your-own-plugin`,children:`Create Your Own Plugin`}),`
@@ -103,7 +119,7 @@ export const CustomPlugin: MarkdownPlugin = {\r
 }
 `})}),`
 `,(0,o.jsx)(s.p,{children:`This example plugin adds a toolbar button that opens a dialog for embedding YouTube videos. When the user fills out the form and confirms, the appropriate Markdown syntax is inserted into the editor.`}),`
-`,(0,o.jsx)(s.h2,{id:`customization`,children:`Customization`}),`
+`,(0,o.jsxs)(s.h2,{id:`-customization`,children:[(0,o.jsx)(`a`,{id:`customization`}),`🎨 Customization`]}),`
 `,(0,o.jsxs)(s.p,{children:[`You can customize the appearance of the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` by applying your own CSS styles or using Tailwind CSS classes. The component accepts a `,(0,o.jsx)(s.code,{children:`className`}),` prop for adding custom classes.`]}),`
 `,(0,o.jsx)(s.p,{children:`If you using Tailwind CSS, you don't need to import the default styles, as Tailwind will handle the styling for you. Some fonts are recommended for better code readability. You can include them in your Tailwind CSS configuration as follows:`}),`
 `,(0,o.jsx)(s.pre,{children:(0,o.jsx)(s.code,{className:`language-css`,children:`@charset "UTF-8";\r
@@ -137,5 +153,27 @@ export const CustomPlugin: MarkdownPlugin = {\r
   <MarkdownEditor ... />\r
 </div>
 `})}),`
+`,(0,o.jsxs)(s.h2,{id:`-contributing`,children:[(0,o.jsx)(`a`,{id:`contributing`}),`🤝 Contributing`]}),`
+`,(0,o.jsxs)(s.p,{children:[`Contributions to the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. Pull requests are also encouraged.`]}),`
+`,(0,o.jsxs)(s.h2,{id:`-troubleshooting`,children:[(0,o.jsx)(`a`,{id:`troubleshooting`}),`🐛 Troubleshooting`]}),`
+`,(0,o.jsxs)(s.p,{children:[`If you encounter any issues while using the `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),`, please check the following:`]}),`
+`,(0,o.jsxs)(s.ul,{children:[`
+`,(0,o.jsx)(s.li,{children:`Ensure you have the latest version of the component installed.`}),`
+`,(0,o.jsx)(s.li,{children:`Check the GitHub issues page for known problems and solutions.`}),`
+`,(0,o.jsx)(s.li,{children:`If you still need help, feel free to open a new issue with detailed information about the problem.`}),`
+`]}),`
+`,(0,o.jsx)(s.h2,{id:`️-support-or-donate`,children:`❤️ Support or Donate`}),`
+`,(0,o.jsxs)(s.p,{children:[`If you find this project useful and would like to support its development, consider making a donation. You can donate via `,(0,o.jsx)(s.a,{href:`https://github.com/sponsors/annhdev`,rel:`nofollow`,children:`GitHub Sponsors`}),`.`]}),`
+`,(0,o.jsx)(s.p,{children:(0,o.jsx)(s.a,{href:`https://www.paypal.me/annhdev`,rel:`nofollow`,children:(0,o.jsx)(s.img,{src:`https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg`,alt:`PayPal`})})}),`
+`,(0,o.jsx)(`img`,{src:`public/bmc_qr.png`,width:`200px`,alt:`Buy me a beer`}),`
+`,(0,o.jsxs)(s.h2,{id:`️-roadmap`,children:[(0,o.jsx)(`a`,{id:`roadmap`}),`🛣️ Roadmap`]}),`
+`,(0,o.jsx)(s.p,{children:`Planned features and improvements for future releases include:`}),`
+`,(0,o.jsxs)(s.ul,{children:[`
+`,(0,o.jsx)(s.li,{children:`Additional Plugins for Extended Functionality`}),`
+`,(0,o.jsx)(s.li,{children:`Enhanced Customization Options`}),`
+`,(0,o.jsx)(s.li,{children:`Improved Performance and Responsiveness`}),`
+`,(0,o.jsx)(s.li,{children:`Better Accessibility Support`}),`
+`,(0,o.jsx)(s.li,{children:`Integration with More CSS Frameworks`}),`
+`]}),`
 `,(0,o.jsx)(s.h2,{id:`licensing`,children:`Licensing`}),`
 `,(0,o.jsxs)(s.p,{children:[`The `,(0,o.jsx)(s.code,{children:`MarkdownEditor`}),` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.`]})]})}function u(e={}){let{wrapper:n}={...t(),...e.components};return n?(0,o.jsx)(n,{...e,children:(0,o.jsx)(l,{...e})}):l(e)}function d(e,t){throw Error(`Expected `+(t?`component`:`object`)+" `"+e+"` to be defined: you likely forgot to import, pass, or provide it.")}export{u as default};

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-
 import { fn } from 'storybook/test'
 
 import MarkdownEditorPreview from './markdown.preview'
@@ -36,10 +35,75 @@ const meta: Meta<typeof MarkdownEditorPreview> = {
 
 export default meta
 
+const content = `
+# Features Demo
+
+## Features
+
+* CommonMark + GFM Specifications
+    * Live Preview
+    * Scroll Sync
+* Auto Indent
+* Syntax Highlight
+    1. Markdown
+    2. Preview
+
+## Quotes
+
+> See the table below for default options
+>> More API information can be found in the document
+
+## Table
+
+| name | type | description |
+|---|---|---|
+| el | \`HTMLElement\` | container element |
+| el | \`HTMLElement\` | container element |
+| el | \`HTMLElement\` | container element |
+
+## Links
+[Google](https://google.com)
+
+<a id="link_id" href="https://google.com" title="Link">Google Raw Link</a>
+
+## Images
+![Alt text](https://placehold.co/400)
+
+<img src="https://placehold.co/400" width="200" height="auto" alt="test" title="test" />
+
+## Lists
+- Item 1
+- Item 2
+    - Subitem 1
+    - Subitem 2
+- Item 3
+
+1. First
+2. Second
+3. Third
+
+## Task List
+- [x] Task 0
+- [ ] Task 1
+- [ ] Task level 1
+    - [ ] Task level 2
+## Code blocks
+\`\`\`javascript
+const test = 123
+if (test === 123) {
+    console.log('Hello World')
+}
+
+if (test > 122) {
+    console.log('Greater than 122')
+}
+\`\`\`
+`
+
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Demo: StoryObj<typeof meta> = {
     args: {
-        value: "# Features Demo\n\n## Features\n\n* CommonMark + GFM Specifications\n    * Live Preview\n    * Scroll Sync\n* Auto Indent\n* Syntax Highlight\n    1. Markdown\n    2. Preview\n\n## Quotes\n\n> See the table below for default options\n>> More API information can be found in the document\n\n## Table\n\n| name | type | description |\n|---|---|---|\n| el | `HTMLElement` | container element |\n| el | `HTMLElement` | container element |\n| el | `HTMLElement` | container element |\n\n## Links\n[Google](https://google.com)\n\n## Images\n![Alt text](https://placehold.co/400)\n\n## Lists\n- Item 1\n- Item 2\n    - Subitem 1\n    - Subitem 2\n- Item 3\n\n1. First\n2. Second\n3. Third\n\n## Task List\n- [x] Task 0\n- [ ] Task 1\n- [ ] Task level 1\n    - [ ] Task level 2\n## Code blocks\n```javascript\nconst test = 123\nif (test === 123) {\n    console.log('Hello World')\n}\n\nif (test > 122) {\n    console.log('Greater than 122')\n}\n```\n  ",
+        value: content,
         onChange: fn(),
         className: 'w-full',
         scrollSync: true,

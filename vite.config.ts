@@ -1,15 +1,16 @@
 /// <reference types="vitest/config" />
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
 import path, { resolve } from 'node:path'
-import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { fileURLToPath } from 'node:url'
-import { globSync } from 'glob'
-import dts from 'vite-plugin-dts'
-import tailwindcss from '@tailwindcss/vite'
+
 import storybookTest from '@storybook/addon-vitest/vitest-plugin'
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
 import { playwright } from '@vitest/browser-playwright'
+import { globSync } from 'glob'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
+import { libInjectCss } from 'vite-plugin-lib-inject-css'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vite.dev/config/
