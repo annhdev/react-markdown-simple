@@ -1,6 +1,7 @@
 import type { MarkdownPlugin } from '@/components/MarkdownEditor/types.ts'
 
 export const RawLinkPlugin: MarkdownPlugin = {
+    key: 'raw-link',
     name: 'Insert Link',
     tooltip: 'Insert Link (Raw HTML)',
     rawLinks: [],

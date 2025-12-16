@@ -23,9 +23,13 @@ The `MarkdownEditor` component provides a user-friendly interface for writing an
 - [License](#license)
 
 ## <a id="features"></a>✨ Features
+
 - Syntax Highlighting (Very simple)
 - Live Preview
-- Toolbar with Formatting Options
+- Toolbar with Formatting Options (Allow customization)
+- Scroll Synchronization between Editor and Preview
+- Read-Only Mode
+- Character and Word Limit Enforcement
 - Customizable Themes and Fonts (Dark Mode Support)
 - Easy Integration with React Applications
 - Integration with Tailwind CSS or other CSS frameworks
@@ -69,17 +73,23 @@ You can see a live demo of the component [Here](https://annhdev.github.io/react-
 
 ## <a id="configuration"></a>🔧 Configuration
 
-| Prop Name      | Type     | Default   | Description                             |
-|----------------|----------|-----------|-----------------------------------------|
-| value          | string   | ''        | The initial Markdown content.           |
-| onChange       | function | (value) => void  | Callback function when content changes. |
-| scrollSync     | boolean  | true      | If true, synchronizes scrolling between editor and preview. |
-| preview        | boolean  | true      | If true, shows the live preview pane.          |
-| readOnly        | boolean  | true      | If true, makes the editor read-only.          |
-| customFonts   | array    | []        | Array of custom font family names to use.      |
-| defaultFont   | string   | 'monospace' | Default font family for the editor.            |
-| plugins       | array    | []        | Array of plugins to extend editor functionality. |
-| className     | string   | ''        | Additional CSS class for custom styling. |
+| Prop Name      | Type       | Default   | Description                             |
+|----------------|------------|-----------|-----------------------------------------|
+| value          | string     | ''        | The initial Markdown content.           |
+| onChange       | function   | (value) => void  | Callback function when content changes. |
+| scrollSync     | boolean    | true      | If true, synchronizes scrolling between editor and preview. |
+| preview        | boolean    | true      | If true, shows the live preview pane.          |
+| showPreviewHeader        | boolean    | true      | If true, shows the preview header.          |
+| readOnly        | boolean    | true      | If true, makes the editor read-only.          |
+| customFonts   | array      | []        | Array of custom font family names to use.      |
+| defaultFont   | string     | 'monospace' | Default font family for the editor.            |
+| plugins       | array      | []        | Array of plugins to extend editor functionality. |
+| className     | string     | ''        | Additional CSS class for custom styling. |
+| toolbar     | string[][] | 'DEFAULT_TOOLBAR'        | Custom toolbar configuration. |
+| wordLimit     | number | undefined        | Optional word limit for the editor content. |
+| characterLimit     | number | undefined        | Optional character limit for the editor content. |
+| showToolbar     | boolean | true        | If true, displays the toolbar. |
+| showFooterBar     | boolean | true        | If true, displays the footer bar. |
 
 ## <a id="plugins"></a>🔌 Plugins
 

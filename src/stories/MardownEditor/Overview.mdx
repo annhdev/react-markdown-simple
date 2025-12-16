@@ -32,7 +32,10 @@ The `MarkdownEditor` component provides a user-friendly interface for writing an
 
 - Syntax Highlighting (Very simple)
 - Live Preview
-- Toolbar with Formatting Options
+- Toolbar with Formatting Options (Allow customization)
+- Scroll Synchronization between Editor and Preview
+- Read-Only Mode
+- Character and Word Limit Enforcement
 - Customizable Themes and Fonts (Dark Mode Support)
 - Easy Integration with React Applications
 - Integration with Tailwind CSS or other CSS frameworks
@@ -87,11 +90,17 @@ export default App;
         ['onChange', 'function', '(value) => void', 'Callback function when content changes.'],
         ['scrollSync', 'boolean', 'true', 'If true, synchronizes scrolling between editor and preview.'],
         ['preview', 'boolean', 'true', 'If true, shows the live preview pane.'],
+        ['showPreviewHeader', 'boolean', 'true', 'If true, shows the preview header.'],
         ['readOnly', 'boolean', 'false', 'If true, makes the editor read-only.'],
-        ['customFonts', 'array', '[]', 'Array of custom fonts available in the editor.'],
+        ['customFonts', 'array', 'string[]', 'Array of custom fonts available in the editor.'],
         ['defaultFont', 'string', "'monospace'", 'The default font for the editor content.'],
         ['plugins', 'array', '[]', 'Array of plugins to extend editor functionality.'],
-        ['className', 'string', "''", 'Additional CSS class for custom styling.']
+        ['className', 'string', "''", 'Additional CSS class for custom styling.'],
+        ['toolbar', 'string[][]', "DEFAULT_TOOLBAR", 'Custom toolbar configuration.'],
+        ['wordLimit', 'number', "undefined", 'Optional word limit for the editor content.'],
+        ['characterLimit', 'number', "undefined", 'Optional character limit for the editor content.'],
+        ['showToolbar', 'boolean', "true", 'If true, displays the toolbar.'],
+        ['showFooterBar', 'boolean', "true", 'If true, displays the footer bar.'],
     ]}
 />
 

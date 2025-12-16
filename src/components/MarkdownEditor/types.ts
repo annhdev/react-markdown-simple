@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 
 export interface MarkdownEditorProps {
     value: string
@@ -7,9 +7,15 @@ export interface MarkdownEditorProps {
     plugins?: MarkdownPlugin[]
     scrollSync?: boolean
     preview?: boolean
+    showPreviewHeader?: boolean
     readOnly?: boolean
     customFonts?: FontOption[]
     defaultFont?: string
+    toolbar?: ToolbarLayout
+    wordLimit?: number
+    characterLimit?: number
+    showToolbar?: boolean
+    showFooterBar?: boolean
 }
 
 export interface FontOption {
@@ -27,11 +33,15 @@ export interface DialogField {
 }
 
 export interface MarkdownPlugin {
+    key: string // Unique identifier for the plugin
     name: string
     icon?: ReactNode
+    showLabel?: boolean
+    toolbarButtonType?: 'button' | 'dropdown' | 'switch'
     transform: (content: string) => string
     restore?: (content: string) => string
     onToolbarClick?: (helpers: EditorHelpers) => void
+    onToolbarValueChange?: (value: any, helpers: EditorHelpers) => void
     trigger?: {
         afterRender?: () => void // called after the content is rendered: e.g., to attach event listeners
         beforeRender?: () => void // called before the content is rendered: e.g., to clean up event listeners, inserted elements
@@ -57,4 +67,16 @@ export interface DialogConfig {
 export interface CursorPosition {
     start: number
     end: number
+}
+
+export type ToolbarLayout = string[][]
+
+export interface ToolbarButtonConfig {
+    icon?: React.ReactNode
+    label?: string
+    toolbarButtonType: 'button' | 'dropdown' | 'switch'
+    options?: { label: string; value: string }[]
+    tooltip: string
+    action: (value?: any) => void
+    disabled?: boolean
 }

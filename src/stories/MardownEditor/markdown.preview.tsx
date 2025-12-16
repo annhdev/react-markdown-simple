@@ -12,7 +12,12 @@ export interface MarkdownEditorPreviewProps {
     plugins?: MarkdownPlugin[]
     scrollSync?: boolean
     preview?: boolean
+    showPreviewHeader?: true
     readOnly?: boolean
+    showToolbar?: boolean
+    showFooterBar?: boolean
+    wordLimit?: number
+    characterLimit?: number
 }
 
 const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrollSync = true, preview = true, readOnly = false }: MarkdownEditorPreviewProps) => {
@@ -28,8 +33,13 @@ const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrol
             plugins={plugins}
             scrollSync={scrollSync}
             preview={preview}
+            showPreviewHeader={preview}
             readOnly={readOnly}
             className={className}
+            showToolbar={true}
+            showFooterBar={true}
+            wordLimit={500}
+            characterLimit={2000}
         />
     )
 }

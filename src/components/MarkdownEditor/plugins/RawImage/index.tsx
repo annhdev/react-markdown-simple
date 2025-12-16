@@ -9,8 +9,10 @@ const ImageIcon =  (
 )
 
 export const RawImagePlugin: MarkdownPlugin = {
+    key: 'raw-image',
     name: 'Insert Image',
     icon: ImageIcon,
+    toolbarButtonType: 'button',
     tooltip: 'Insert Image (Custom Size)',
     toolbarOrder: 1,
     showInToolbar: true,
