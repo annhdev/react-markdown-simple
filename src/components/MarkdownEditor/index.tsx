@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import { InsertDialog, ToolButton } from './components'
+import { InsertDialog, Switch, ToolButton } from './components'
+import { DEFAULT_TOOLBAR, FONT_OPTIONS } from './constant.ts'
 import Icons from './icons'
-import { CodeBlockPlugin, RawImagePlugin, RawLinkPlugin,YouTubeEmbedPlugin } from './plugins'
-import type { CursorPosition, DialogConfig, DialogField, FontOption, MarkdownEditorProps } from './types'
+import { CodeBlockPlugin, RawImagePlugin, RawLinkPlugin, YouTubeEmbedPlugin } from './plugins'
+import type { CursorPosition, DialogConfig, DialogField, MarkdownEditorProps, ToolbarButtonConfig } from './types'
 import { highlightMarkdownSource, parseMarkdown } from './utils'
 
 /** Example Usage:
@@ -15,22 +16,23 @@ import { highlightMarkdownSource, parseMarkdown } from './utils'
  * />
  */
 
-// 1. DEFINE FONT OPTIONS
-// Note: For fonts like 'Fira Code' to work, you must load them in your global CSS
-const FONT_OPTIONS: FontOption[] = [
-    { label: 'Monospace', value: 'monospace' },
-    { label: 'Cascadia Mono', value: '"Cascadia Mono"' },
-    { label: 'Roboto Mono', value: '"Roboto Mono"' },
-    { label: 'Fira Code', value: '"Fira Code"' },
-    { label: 'Source Code Pro', value: '"Source Code Pro"' },
-    { label: 'JetBrains Mono', value: '"JetBrains Mono"' },
-    { label: 'Noto Sans Mono', value: '"Noto Sans Mono"' },
-    { label: 'Oxygen Mono', value: '"Oxygen Mono"' },
-    { label: 'IBM Plex Mono', value: '"IBM Plex Mono"' },
-    { label: 'Ubuntu Mono', value: '"Ubuntu Mono"' },
-]
-
-const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollSync = true, preview = true, readOnly = false, customFonts = [], defaultFont = 'monospace' }: MarkdownEditorProps) => {
+const MarkdownEditor = ({
+    value,
+    onChange,
+    className = '',
+    plugins = [],
+    scrollSync = true,
+    preview = true,
+    showPreviewHeader = true,
+    readOnly = false,
+    customFonts = [],
+    defaultFont = 'monospace',
+    toolbar = DEFAULT_TOOLBAR,
+    wordLimit,
+    characterLimit = 1,
+    showToolbar = true,
+    showFooterBar = true,
+}: MarkdownEditorProps) => {
     const [showPreview, setShowPreview] = useState(preview)
     const [htmlContent, setHtmlContent] = useState('')
 
@@ -54,6 +56,13 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
     // ref to store cursor selection
     const selectionRef = useRef<CursorPosition | null>(null)
 
+    // --- HISTORY STATE ---
+    // We use refs for the stack to avoid re-rendering on every keystroke,
+    // but we need a state integer to force re-render so the buttons enable/disable correctly.
+    const historyRef = useRef<{ past: string[]; future: string[] }>({ past: [], future: [] })
+    const [historyVersion, setHistoryVersion] = useState(0) // Trigger re-render
+    const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
     // --- Dynamic Dialog State ---
     const [dialogConfig, setDialogConfig] = useState<DialogConfig>({
         isOpen: false,
@@ -64,6 +73,18 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
 
     // Highlighted Source Code State
     const highlightedSource = useMemo(() => highlightMarkdownSource(value), [value])
+
+    // Word count
+    const stats = useMemo(() => {
+        const text = value.trim()
+        if (!text) return { words: 0, chars: 0 }
+        return {
+            words: text.split(/\s+/).filter(Boolean).length,
+            chars: text.length,
+        }
+    }, [value])
+
+    const isOverLimit = (wordLimit && stats.words > wordLimit) || (characterLimit && stats.chars > characterLimit)
 
     // --- Merge default plugins ---
     const allPlugins = useMemo(() => {
@@ -113,6 +134,60 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
         })
     }, [allPlugins])
 
+    // --- HISTORY LOGIC ---
+
+    // 1. Save Snapshot (Debounced for typing)
+    // Call this when user types in the textarea
+    const saveHistory = useCallback(
+        (_newValue: string, immediate = false) => {
+            if (readOnly) return
+
+            const pushToHistory = () => {
+                // Only save if different from last saved state (top of past)
+                const lastState = historyRef.current.past[historyRef.current.past.length - 1]
+                // Also don't save if it matches current value (duplicate)
+                if (lastState !== value) {
+                    historyRef.current.past.push(value) // Push the *previous* value (state before change)
+                    historyRef.current.future = [] // Clear redo stack on new change
+                    setHistoryVersion((v) => v + 1) // Update UI
+                }
+            }
+
+            if (immediate) {
+                if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+                pushToHistory()
+            } else {
+                if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
+                typingTimeoutRef.current = setTimeout(pushToHistory, 500) // 500ms debounce
+            }
+        },
+        [value, readOnly]
+    )
+
+    // 2. Undo Action
+    const handleUndo = useCallback(() => {
+        if (historyRef.current.past.length === 0 || readOnly) return
+
+        const previous = historyRef.current.past.pop()
+        if (previous !== undefined) {
+            historyRef.current.future.push(value) // Save current to future
+            onChange(previous)
+            setHistoryVersion((v) => v + 1)
+        }
+    }, [onChange, readOnly, value])
+
+    // 3. Redo Action
+    const handleRedo = useCallback(() => {
+        if (historyRef.current.future.length === 0 || readOnly) return
+
+        const next = historyRef.current.future.pop()
+        if (next !== undefined) {
+            historyRef.current.past.push(value) // Save current to past
+            onChange(next)
+            setHistoryVersion((v) => v + 1)
+        }
+    }, [onChange, readOnly, value])
+
     // --- SCROLL SYNC ---
     const handleScroll = useCallback(
         (source: 'editor' | 'preview') => {
@@ -137,11 +212,26 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
         [isScrollSynced]
     )
 
+    // --- EDITOR HANDLERS ---
+
+    const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (readOnly) return
+        if (isOverLimit) return // Prevent changes if over limit
+
+        const newValue = e.target.value
+        saveHistory(newValue, false) // Debounced save
+        onChange(newValue)
+    }
+
     // --- TOOLBAR HELPERS ---
     const insertText = useCallback(
         (before: string, after: string = '') => {
             const textarea = textareaRef.current
             if (!textarea) return
+
+            if (isOverLimit) return // Prevent insertion if over limit
+
+            saveHistory(value, true) // Immediate save before toolbar insertion
 
             const start = textarea.selectionStart
             const end = textarea.selectionEnd
@@ -157,10 +247,10 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
 
             onChange(newText)
         },
-        [onChange, value]
+        [isOverLimit, onChange, saveHistory, value]
     )
 
-    // --- NEW LOGIC: Handling the ENTER key to continue/exit the list ---
+    // --- Handling the ENTER key to continue/exit the list ---
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = textareaRef.current
         if (!textarea) return
@@ -267,7 +357,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
     }
 
     // --- Built-in Actions (Refactored to use generic openDialog) ---
-    const handleLinkClick = () => {
+    const handleLinkClick = useCallback(() => {
         openDialog({
             title: 'Insert Link',
             fields: [
@@ -276,9 +366,9 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
             ],
             onConfirm: (data) => insertText(`[${data.text}](${data.url})`),
         })
-    }
+    }, [insertText])
 
-    const handleImageClick = () => {
+    const handleImageClick = useCallback(() => {
         openDialog({
             title: 'Insert Image',
             fields: [
@@ -287,103 +377,246 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
             ],
             onConfirm: (data) => insertText(`![${data.alt}](${data.url})`),
         })
-    }
+    }, [insertText])
+
+    // --- Tool registry ---
+    const toolRegistry = useMemo(() => {
+        const registry: Record<string, ToolbarButtonConfig> = {
+            // History Tools
+            undo: {
+                icon: <Icons.Undo />,
+                toolbarButtonType: 'button',
+                tooltip: 'Undo',
+                action: handleUndo,
+                disabled: historyRef.current.past.length === 0,
+            },
+            redo: {
+                icon: <Icons.Redo />,
+                toolbarButtonType: 'button',
+                tooltip: 'Redo',
+                action: handleRedo,
+                disabled: historyRef.current.future.length === 0,
+            },
+
+            // Standard Tools
+            heading: { icon: <Icons.Heading />, toolbarButtonType: 'button', tooltip: 'Heading', action: () => insertText('## ') },
+            bold: { icon: <Icons.Bold />, toolbarButtonType: 'button', tooltip: 'Bold', action: () => insertText('**', '**') },
+            italic: { icon: <Icons.Italic />, toolbarButtonType: 'button', tooltip: 'Italic', action: () => insertText('*', '*') },
+            strike: { icon: <Icons.Strike />, toolbarButtonType: 'button', tooltip: 'Strike', action: () => insertText('~~', '~~') },
+            quote: { icon: <Icons.Quote />, toolbarButtonType: 'button', tooltip: 'Quote', action: () => insertText('> ') },
+            list: { icon: <Icons.List />, toolbarButtonType: 'button', tooltip: 'List', action: () => insertText('- ') },
+            'list-ordered': { icon: <Icons.ListOrdered />, toolbarButtonType: 'button', tooltip: 'Ordered List', action: () => insertText('1. ') },
+            check: { icon: <Icons.Check />, toolbarButtonType: 'button', tooltip: 'Task List', action: () => insertText('- [ ] ') },
+            code: { icon: <Icons.Code />, toolbarButtonType: 'button', tooltip: 'Code Block', action: () => insertText('```js\n', '\n```') },
+            table: { icon: <Icons.Table />, toolbarButtonType: 'button', tooltip: 'Table', action: () => insertText(`\n| Header | Header |\n| --- | --- |\n| Cell | Cell |\n`) },
+            image: { icon: <Icons.Image />, toolbarButtonType: 'button', tooltip: 'Image', action: () => handleImageClick() },
+            // Dialog Actions
+            link: {
+                icon: <Icons.Link />,
+                toolbarButtonType: 'button',
+                tooltip: 'Link',
+                action: () => handleLinkClick(),
+            },
+
+            font: {
+                icon: <Icons.Font />,
+                label: 'Font',
+                toolbarButtonType: 'dropdown',
+                tooltip: 'Font',
+                options: FONT_OPTIONS,
+                action: (value: string) => {
+                    /* Handled in onChange of select tool */
+                    setCurrentFont(value)
+                },
+            },
+
+            scrollSync: {
+                label: 'Scroll Sync',
+                toolbarButtonType: 'switch',
+                tooltip: isScrollSynced ? 'Disable Scroll Sync' : 'Enable Scroll Sync',
+                action: () => setIsScrollSynced(!isScrollSynced),
+            },
+
+            preview: {
+                icon: showPreview ? <Icons.Eye /> : <Icons.EyeOff />,
+                toolbarButtonType: 'button',
+                tooltip: showPreview ? 'Hide Preview' : 'Show Preview',
+                action: () => {
+                    setShowPreview(!showPreview)
+                },
+            },
+        }
+
+        // Register Custom Plugins
+        allPlugins.forEach((plugin) => {
+            if (plugin.showInToolbar) {
+                if (plugin.toolbarButtonType === 'button') {
+                    registry[plugin.key] = {
+                        icon: plugin.icon,
+                        label: plugin.showLabel ? plugin.name : undefined,
+                        toolbarButtonType: plugin.toolbarButtonType || 'button',
+                        tooltip: plugin.tooltip || plugin.name,
+                        action: () => {
+                            if (plugin.onToolbarClick) {
+                                plugin.onToolbarClick({ openDialog, insertText })
+                            }
+                        },
+                    }
+                } else if (plugin.toolbarButtonType === 'dropdown' && plugin.options) {
+                    registry[plugin.key] = {
+                        icon: plugin.icon,
+                        label: plugin.showLabel ? plugin.name : undefined,
+                        toolbarButtonType: plugin.toolbarButtonType || 'button',
+                        tooltip: plugin.tooltip || plugin.name,
+                        action: (value: string) => {
+                            if (plugin.onToolbarValueChange) {
+                                plugin.onToolbarValueChange(value, { openDialog, insertText })
+                            }
+                        },
+                        // For dropdowns
+                        options: plugin.options,
+                    }
+                } else if (plugin.toolbarButtonType === 'switch') {
+                    registry[plugin.key] = {
+                        icon: plugin.icon,
+                        label: plugin.showLabel ? plugin.name : undefined,
+                        toolbarButtonType: plugin.toolbarButtonType || 'button',
+                        tooltip: plugin.tooltip || plugin.name,
+                        action: (value: any) => {
+                            if (plugin.onToolbarValueChange) {
+                                plugin.onToolbarValueChange(value, { openDialog, insertText })
+                            }
+                        },
+                    }
+                }
+            }
+        })
+
+        return registry
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [handleUndo, handleRedo, isScrollSynced, showPreview, allPlugins, insertText, handleImageClick, handleLinkClick, historyVersion]) // Re-bind when history changes
 
     return (
-        <div className={`editor-container flex flex-col border border-gray-200 dark:border-gray-500 rounded-lg bg-white dark:bg-slate-800 shadow-sm overflow-hidden h-150 font-sans ${className}`}>
+        <div className={`editor-container flex flex-col border border-gray-200 dark:border-gray-500 rounded-lg bg-white dark:bg-slate-800 shadow-sm overflow-hidden font-sans ${className}`}>
             {/* 1. RENDER DYNAMIC DIALOG */}
             <InsertDialog isOpen={dialogConfig.isOpen} title={dialogConfig.title} fields={dialogConfig.fields} onClose={() => setDialogConfig((prev) => ({ ...prev, isOpen: false }))} onConfirm={dialogConfig.onConfirm} />
 
             {/* 2. TOOLBAR */}
-            <div className='header-bar flex items-center justify-between gap-3 px-3 py-2 border-b border-gray-200 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 select-none'>
-                {/* Left: Formatting Actions */}
-                <div className='left-tools flex items-center gap-1 p-1 overflow-x-auto scrollbar-hide'>
-                    {!readOnly ? (
-                        <>
-                            <ToolButton icon={<Icons.Heading />} onClick={() => insertText('## ')} tooltip='Heading' />
-                            <ToolButton icon={<Icons.Bold />} onClick={() => insertText('**', '**')} tooltip='Bold' />
-                            <ToolButton icon={<Icons.Italic />} onClick={() => insertText('*', '*')} tooltip='Italic' />
-                            <ToolButton icon={<Icons.Strike />} onClick={() => insertText('~~', '~~')} tooltip='Strikethrough' />
-                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                            <div className='font-selector relative group flex items-center'>
-                                <span className='font-selector-label text-xs text-gray-400 font-bold mr-1'>FONT:</span>
-                                <div className='select-input relative'>
-                                    <select
-                                        className='appearance-none bg-transparent hover:bg-gray-100 text-gray-600 text-xs font-medium py-1.5 pl-2 pr-6 rounded cursor-pointer focus:outline-1 focus:outline-blue-400 border-none dark:border-gray-500 hover:border-gray-200 transition-colors'
-                                        value={currentFont}
-                                        onChange={(e) => setCurrentFont(e.target.value)}
-                                        title='Change Editor Font'
-                                    >
-                                        {FONT_OPTIONS.map((opt) => (
-                                            <option key={opt.value} value={opt.value}>
-                                                {opt.label} {opt.value === defaultFont ? '(Default)' : ''}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {/* Custom Arrow Icon */}
-                                    <div className='custom-arrow pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-gray-400'>
-                                        <svg className='fill-current size-3' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'>
-                                            <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                            <ToolButton icon={<Icons.Quote />} onClick={() => insertText('> ')} tooltip='Blockquote' />
-                            <ToolButton icon={<Icons.List />} onClick={() => insertText('* ')} tooltip='List' />
-                            <ToolButton icon={<Icons.ListOrdered />} onClick={() => insertText('1. ')} tooltip='Ordered List' />
-                            <ToolButton icon={<Icons.Check />} onClick={() => insertText('- [ ] ')} tooltip='Task' />
-                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                            <ToolButton icon={<Icons.Table />} onClick={() => insertText(`\n| Header | Header |\n| --- | --- |\n| Cell | Cell |\n`)} tooltip='Table' />
-                            {/*<ToolButton icon={<Icons.Image />} onClick={() => insertText('![Alt](', ')')} tooltip='Image' />*/}
-                            {/*<ToolButton icon={<Icons.Link />} onClick={() => insertText('[Link](', ')')} tooltip='Link' />*/}
-                            <ToolButton icon={<Icons.Image />} onClick={handleImageClick} tooltip='Image' />
-                            <ToolButton icon={<Icons.Link />} onClick={handleLinkClick} tooltip='Link' />
-                            <ToolButton icon={<Icons.Code />} onClick={() => insertText('```\n', '\n```')} tooltip='Code Block' />
+            {showToolbar && (
+                <div className='header-bar flex items-center justify-between gap-3 px-3 py-2 border-b border-gray-200 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 select-none'>
+                    {/* Left: Formatting Actions */}
+                    <div className='left-tools tools flex items-center gap-1 p-1 overflow-x-auto scrollbar-hide'>
+                        {!readOnly ? (
+                            <>
+                                {toolbar?.slice(0, toolbar?.length - 1).map((group: string[], groupIndex: number) => (
+                                    <Fragment key={groupIndex}>
+                                        {/* Render Group Divider (except for first group) */}
+                                        {groupIndex > 0 && <div className='tool-divide divide w-px h-5 bg-gray-300 mx-2' />}
 
-                            <div className='divide w-px h-5 bg-gray-300 mx-2' />
-                            {allPlugins
-                                .sort((p1, p2) => (p1.toolbarOrder && p2.toolbarOrder ? (p1.toolbarOrder > p2.toolbarOrder ? 1 : -1) : p1.name > p2.name ? 1 : -1)) // Sort by toolbarOrder, then name
-                                .map((plugin) =>
-                                    plugin.showInToolbar ? (
-                                        <ToolButton
-                                            key={plugin.name}
-                                            icon={plugin.icon}
-                                            onClick={() => {
-                                                if (plugin.onToolbarClick) {
-                                                    // Pass helpers to the plugin
-                                                    plugin.onToolbarClick({ openDialog, insertText })
-                                                }
-                                            }}
-                                            tooltip={plugin.tooltip ? plugin.tooltip : plugin.name.charAt(0).toUpperCase() + plugin.name.slice(1)} // Fallback to name if no tooltip
-                                        />
-                                    ) : null
-                                )}
-                        </>
-                    ) : (
-                        <div className='read-only-title text-sm text-gray-600'>Read-Only Mode</div>
-                    )}
-                </div>
-
-                {/* Right: View Options */}
-                <div className='right-tools flex items-center gap-3 p-1 pl-4 border-l border-gray-300'>
-                    <div className='sync-switch flex items-center gap-2 text-xs font-medium text-gray-600'>
-                        <span>Scroll Sync</span>
-                        <label className={'switch relative'} aria-label={'Toggle Scroll Sync'}>
-                            <input type={'checkbox'} defaultChecked={isScrollSynced} onChange={() => setIsScrollSynced(!isScrollSynced)} className={'peer w-8 h-4 rounded-full p-1 appearance-none bg-gray-300 checked:bg-blue-500 focus:outline-1 focus:outline-blue-400'} />
-                            <div className={`slider absolute top-0.5 left-0.5 peer-checked:translate-x-4 bg-white w-3 h-3 rounded-full shadow-md transform duration-300`} />
-                        </label>
+                                        {/* Render Buttons in Group */}
+                                        {group.map((toolKey) => {
+                                            const tool = toolRegistry[toolKey]
+                                            if (!tool) return null // Skip if key not found
+                                            if (tool.toolbarButtonType === 'button') {
+                                                return <ToolButton key={toolKey} icon={tool.icon} tooltip={tool.tooltip} onClick={() => tool.action()} disabled={tool.disabled ?? false} />
+                                            } else if (tool.toolbarButtonType === 'dropdown' && tool.options) {
+                                                return (
+                                                    <div className={'tool-select flex flex-row items-center gap-2'} key={toolKey}>
+                                                        {tool.label && <span className='tool-label text-xs text-gray-500 mb-0.5 select-none'>{tool.label}</span>}
+                                                        <select
+                                                            key={toolKey}
+                                                            value={currentFont}
+                                                            disabled={tool.disabled ?? false}
+                                                            onChange={(e) => tool.action(e.target.value)}
+                                                            className='text-sm p-1 rounded border border-gray-400 bg-white dark:bg-slate-700 dark:border-gray-600 hover:ring-1 hover:ring-blue-400 focus:border-none focus:shadow-none focus:ring-0 focus:outline-1 focus:outline-blue-400'
+                                                            title={tool.tooltip}
+                                                        >
+                                                            {tool.options.map((opt) => (
+                                                                <option key={opt.value} value={opt.value}>
+                                                                    {opt.label}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                )
+                                            } else if (tool.toolbarButtonType === 'switch') {
+                                                return (
+                                                    <Switch
+                                                        key={toolKey}
+                                                        title={tool.label}
+                                                        defaultChecked={isScrollSynced}
+                                                        disabled={tool.disabled ?? false}
+                                                        onChange={() => {
+                                                            tool.action()
+                                                        }}
+                                                    />
+                                                )
+                                            }
+                                            // Fallback for unsupported types
+                                            return null
+                                        })}
+                                    </Fragment>
+                                ))}
+                            </>
+                        ) : (
+                            <div className='read-only-title text-sm text-gray-600'>Read-Only Mode</div>
+                        )}
                     </div>
-                    <button
-                        data-preview={showPreview ? 'true' : 'false'}
-                        onClick={() => setShowPreview(!showPreview)}
-                        className={`eye-button p-1.5 rounded hover:bg-gray-200 ring-0 focus:outline-1 focus:outline-blue-400 ${!showPreview ? 'bg-gray-200 text-blue-600' : 'text-gray-500'}`}
-                        title={showPreview ? 'Hide Preview' : 'Show Preview'}
-                    >
-                        {showPreview ? <Icons.Eye /> : <Icons.EyeOff />}
-                    </button>
+
+                    {/* Right: View Options */}
+                    <div className={`right-tools tools flex items-center gap-3 p-1 pl-4 ${toolbar?.slice(toolbar?.length - 1)[0].length > 0 ? 'has-children' : ''}`}>
+                        {toolbar?.slice(toolbar?.length - 1).map((group: string[], groupIndex: number) => (
+                            <Fragment key={groupIndex}>
+                                {/* Render Group Divider (except for first group) */}
+                                {groupIndex > 0 && <div className='tool-divide divide w-px h-5 bg-gray-300 mx-2' />}
+
+                                {/* Render Buttons in Group */}
+                                {group.map((toolKey) => {
+                                    const tool = toolRegistry[toolKey]
+                                    if (!tool) return null // Skip if key not found
+                                    if (tool.toolbarButtonType === 'button') {
+                                        return <ToolButton key={toolKey} icon={tool.icon} tooltip={tool.tooltip} onClick={() => tool.action()} disabled={tool.disabled ?? false} />
+                                    } else if (tool.toolbarButtonType === 'dropdown' && tool.options) {
+                                        return (
+                                            <div className={'tool-select flex flex-row items-center gap-2'} key={toolKey}>
+                                                {tool.label && <span className='tool-label text-xs text-gray-500 mb-0.5 select-none'>{tool.label}</span>}
+                                                <select
+                                                    key={toolKey}
+                                                    value={currentFont}
+                                                    onChange={(e) => tool.action(e.target.value)}
+                                                    className='text-sm p-1 rounded border border-gray-400 bg-white dark:bg-slate-700 dark:border-gray-600 hover:ring-1 hover:ring-blue-400 focus:border-none focus:shadow-none focus:ring-0 focus:outline-1 focus:outline-blue-400'
+                                                    title={tool.tooltip}
+                                                    disabled={tool.disabled ?? false}
+                                                >
+                                                    {tool.options.map((opt) => (
+                                                        <option key={opt.value} value={opt.value}>
+                                                            {opt.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        )
+                                    } else if (tool.toolbarButtonType === 'switch') {
+                                        return (
+                                            <Switch
+                                                key={toolKey}
+                                                title={tool.label}
+                                                defaultChecked={isScrollSynced}
+                                                disabled={tool.disabled ?? false}
+                                                onChange={() => {
+                                                    tool.action()
+                                                }}
+                                            />
+                                        )
+                                    }
+                                    // Fallback for unsupported types
+                                    return null
+                                })}
+                            </Fragment>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* 3. EDITOR AREA */}
             <div className='editor-area flex-1 flex overflow-hidden'>
@@ -399,7 +632,7 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
                         ref={textareaRef}
                         value={value}
                         cols={100}
-                        onChange={(e) => onChange(e.target.value)}
+                        onChange={handleTextareaChange}
                         onScroll={() => handleScroll('editor')}
                         onKeyDown={handleKeyDown}
                         placeholder='Type your markdown here...'
@@ -412,11 +645,39 @@ const MarkdownEditor = ({ value, onChange, className = '', plugins = [], scrollS
                 {/* Preview Pane */}
                 {showPreview && (
                     <div className={'preview-col w-1/2 h-full flex flex-col box-border bg-gray-50 dark:bg-slate-900 dark:text-gray-400'}>
-                        <div className={'preview-header px-3 py-1 bg-gray-100 dark:bg-gray-800 border-b border-b-gray-200 dark:border-b-gray-500 text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider'}>Preview</div>
+                        {showPreviewHeader && <div className={'preview-header px-3 py-1 bg-gray-100 dark:bg-gray-800 border-b border-b-gray-200 dark:border-b-gray-500 text-xs text-gray-500 dark:text-gray-400 font-semibold uppercase tracking-wider'}>Preview</div>}
                         <div ref={previewRef} className={`preview flex-1 h-full box-border overflow-y-auto p-8 text-gray-800 dark:text-gray-200`} style={{ fontFamily: currentFont }} dangerouslySetInnerHTML={{ __html: htmlContent }} />
                     </div>
                 )}
             </div>
+
+            {/* 3. FOOTER BAR */}
+            {showFooterBar && (
+                <div className='footer-bar bg-gray-50 border-t border-gray-200 px-4 py-2 flex justify-between items-center select-none text-xs font-mono'>
+                    {/* Left: Status / Path */}
+                    <div className='left-bar text-gray-400 font-semibold'>MARKDOWN</div>
+
+                    {/* Right: Counters */}
+                    <div className={`right-bar flex items-center gap-4 transition-colors duration-200`}>
+                        {/* Word Count */}
+                        <div className={`word-count flex items-center gap-1.5 ${isOverLimit ? 'text-red-600' : 'text-gray-500'}`} title='Word Count'>
+                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' className='w-3.5 h-3.5 opacity-70'>
+                                <path d='M4 7V4h16v3M9 20h6M12 4v16'></path>
+                            </svg>
+                            <span className={isOverLimit ? 'font-bold' : ''}>
+                                {stats.words} {wordLimit ? `/ ${wordLimit}` : ''} words
+                            </span>
+                        </div>
+
+                        <div className='divide w-px h-5 bg-gray-300 mx-2'></div>
+
+                        {/* Character Count */}
+                        <div className='char-count flex items-center gap-1.5' title='Character Count'>
+                            <span className={isOverLimit ? 'font-bold text-red-600' : ''}>{stats.chars} chars</span>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -3,6 +3,7 @@ import type { MarkdownPlugin } from '@/components/MarkdownEditor/types'
 import { highlightCode } from './syntaxHighlighter'
 
 export const CodeBlockPlugin: MarkdownPlugin = {
+    key: 'code-block',
     name: 'code',
     codeBlocks: [],
     transform: (content: string) => {

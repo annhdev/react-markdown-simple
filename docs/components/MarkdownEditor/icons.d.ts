@@ -15,5 +15,9 @@ declare const Icons: {
     EyeOff: () => import("react/jsx-runtime").JSX.Element;
     Copy: () => import("react/jsx-runtime").JSX.Element;
     CheckSimple: () => import("react/jsx-runtime").JSX.Element;
+    Youtube: () => import("react/jsx-runtime").JSX.Element;
+    Font: () => import("react/jsx-runtime").JSX.Element;
+    Undo: () => import("react/jsx-runtime").JSX.Element;
+    Redo: () => import("react/jsx-runtime").JSX.Element;
 };
 export default Icons;

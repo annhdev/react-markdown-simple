@@ -105,7 +105,7 @@ export const Demo: StoryObj<typeof meta> = {
     args: {
         value: content,
         onChange: fn(),
-        className: 'w-full',
+        className: 'w-full h-150',
         scrollSync: true,
         preview: true,
         plugins: [],

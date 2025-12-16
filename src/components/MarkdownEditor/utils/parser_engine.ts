@@ -75,7 +75,7 @@ export const parseMarkdown = (text: string, extraPlugins: MarkdownPlugin[] = [])
                 // Mở thẻ mới
                 const tag = listType === 'ol' ? '<ol class="list-decimal pl-5">' : '<ul class="list-disc pl-5">'
                 // Task list style riêng
-                const style = isTask ? '<ul class="task-list pl-5 list-none">' : tag
+                const style = isTask ? '<ul class="task-list flex flex-col gap-2 pl-5 list-none">' : tag
 
                 output.push(style)
                 listStack.push({ type: listType, indent: indentLevel })

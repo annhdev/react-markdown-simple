@@ -1,7 +1,7 @@
 {
     "name": "react-markdown-simple",
     "description": "Simple and efficient markdown rendering component for React applications.",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "keywords": [
         "react",
         "markdown",

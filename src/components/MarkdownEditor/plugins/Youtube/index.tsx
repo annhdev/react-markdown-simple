@@ -1,15 +1,17 @@
 import type { EditorHelpers, MarkdownPlugin } from '@/components/MarkdownEditor/types'
 
 const youtubeIcon = (
-    <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' width='16' height='16'>
-        <path d='M22.54 6.42a2.78 2.78 0 0 0-1.95-2c-1.72-.46-8.63-.46-8.63-.46s-6.91 0-8.63.46a2.78 2.78 0 0 0-1.95 2C2 8.21 2 12 2 12s0 3.79.33 5.58a2.78 2.78 0 0 0 1.95 2c1.72.46 8.63.46 8.63.46s6.91 0 8.63-.46a2.78 2.78 0 0 0 1.95-2c.33-1.79.33-5.58.33-5.58s0-3.79-.33-5.58z' />
-        <polygon points='9.75 15.02 15.5 12 9.75 8.98 9.75 15.02' />
+    <svg viewBox='0 0 24 24' className={'size-4'} fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+        <rect x='2' y='5' width='20' height='14' rx='4' ry='4' />
+        <polygon points='10 9 15 12 10 15 10 9' />
     </svg>
 )
 
 export const YouTubeEmbedPlugin: MarkdownPlugin = {
-    name: 'youtube-embed',
+    key: 'youtube-embed',
+    name: 'youtube embed',
     icon: youtubeIcon,
+    toolbarButtonType: 'button',
     tooltip: 'Embed YouTube Video',
     toolbarOrder: 2,
     showInToolbar: true,
