@@ -3,7 +3,7 @@ import '@/components/MarkdownEditor/style.min.css'
 import { useState } from 'react'
 
 import MarkdownEditor from '@/components/MarkdownEditor'
-import type {MarkdownPlugin} from "@/components/MarkdownEditor/types";
+import type { FontOption, MarkdownPlugin, ToolbarLayout } from '@/components/MarkdownEditor/types'
 
 export interface MarkdownEditorPreviewProps {
     value: string
@@ -18,9 +18,12 @@ export interface MarkdownEditorPreviewProps {
     showFooterBar?: boolean
     wordLimit?: number
     characterLimit?: number
+    customFonts?: FontOption[]
+    defaultFont?: string
+    toolbar?: ToolbarLayout
 }
 
-const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrollSync = true, preview = true, readOnly = false }: MarkdownEditorPreviewProps) => {
+const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrollSync = true, preview = true, readOnly = false, showPreviewHeader, showFooterBar, showToolbar, characterLimit, wordLimit, customFonts, defaultFont, toolbar }: MarkdownEditorPreviewProps) => {
     const [content, setContent] = useState<string>(value)
 
     return (
@@ -33,13 +36,16 @@ const MarkdownEditorPreview = ({ value, onChange, className, plugins = [], scrol
             plugins={plugins}
             scrollSync={scrollSync}
             preview={preview}
-            showPreviewHeader={preview}
+            showPreviewHeader={showPreviewHeader}
             readOnly={readOnly}
             className={className}
-            showToolbar={true}
-            showFooterBar={true}
-            wordLimit={500}
-            characterLimit={2000}
+            showToolbar={showToolbar}
+            showFooterBar={showFooterBar}
+            wordLimit={wordLimit}
+            characterLimit={characterLimit}
+            customFonts={customFonts}
+            defaultFont={defaultFont}
+            toolbar={toolbar}
         />
     )
 }

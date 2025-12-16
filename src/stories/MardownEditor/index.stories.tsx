@@ -21,6 +21,15 @@ const meta: Meta<typeof MarkdownEditorPreview> = {
         scrollSync: { control: 'boolean' },
         preview: { control: 'boolean' },
         plugins: { control: 'object' },
+        showPreviewHeader: { control: 'boolean' },
+        readOnly: { control: 'boolean' },
+        customFonts: { control: 'object' },
+        defaultFont: { control: 'text' },
+        toolbar: { control: 'object' },
+        wordLimit: { control: 'number' },
+        characterLimit: { control: 'number' },
+        showToolbar: { control: 'boolean' },
+        showFooterBar: { control: 'boolean' },
     },
     // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#story-args
     args: {
@@ -30,6 +39,22 @@ const meta: Meta<typeof MarkdownEditorPreview> = {
         scrollSync: true,
         preview: true,
         plugins: [],
+        showPreviewHeader: true,
+        readOnly: false,
+        customFonts: [],
+        defaultFont: 'monospace',
+        toolbar: [
+            ['undo', 'redo'],
+            ['heading', 'bold', 'italic', 'strike', 'font'],
+            ['quote', 'list', 'list-ordered', 'check'],
+            ['table', 'image', 'link', 'code'],
+            ['raw-image', 'youtube-embed', 'test'], // Placeholder for custom plugins
+            ['scrollSync', 'preview'],
+        ],
+        wordLimit: 1000,
+        characterLimit: 4000,
+        showToolbar: true,
+        showFooterBar: true,
     },
 } satisfies Meta<typeof MarkdownEditorPreview>
 
@@ -109,5 +134,21 @@ export const Demo: StoryObj<typeof meta> = {
         scrollSync: true,
         preview: true,
         plugins: [],
+        showPreviewHeader: true,
+        readOnly: false,
+        customFonts: [],
+        defaultFont: 'monospace',
+        toolbar: [
+            ['undo', 'redo'],
+            ['heading', 'bold', 'italic', 'strike', 'font'],
+            ['quote', 'list', 'list-ordered', 'check'],
+            ['table', 'image', 'link', 'code'],
+            ['raw-image', 'youtube-embed', 'test'], // Placeholder for custom plugins
+            ['scrollSync', 'preview'],
+        ],
+        wordLimit: 1000,
+        characterLimit: 4000,
+        showToolbar: true,
+        showFooterBar: true,
     },
 }

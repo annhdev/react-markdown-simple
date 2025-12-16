@@ -28,8 +28,8 @@ const MarkdownEditor = ({
     customFonts = [],
     defaultFont = 'monospace',
     toolbar = DEFAULT_TOOLBAR,
-    wordLimit,
-    characterLimit = 1,
+    wordLimit = 500,
+    characterLimit = 2000,
     showToolbar = true,
     showFooterBar = true,
 }: MarkdownEditorProps) => {
