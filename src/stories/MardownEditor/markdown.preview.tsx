@@ -1,9 +1,9 @@
-import '@/components/MarkdownEditor/style.min.css'
+import '@/style.min.css'
 
 import { useState } from 'react'
 
 import MarkdownEditor from '@/components/MarkdownEditor'
-import type { FontOption, MarkdownPlugin, ToolbarLayout } from '@/components/MarkdownEditor/types'
+import type { FontOption, MarkdownPlugin, ToolbarLayout } from '@/types'
 
 export interface MarkdownEditorPreviewProps {
     value: string

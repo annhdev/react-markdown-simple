@@ -1,0 +1,1 @@
+import{n as e,t}from"./lib-CLbg3lEi.js";export{t as MDXProvider};

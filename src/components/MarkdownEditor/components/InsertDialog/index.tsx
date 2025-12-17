@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import type { DialogField } from '@/components/MarkdownEditor/types'
+import type { DialogField } from '@/types'
 
 export interface DynamicDialogProps {
     isOpen: boolean

@@ -34,7 +34,7 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 {
-                    src: 'src/components/MarkdownEditor/style.min.css',
+                    src: 'src/style.min.css',
                     dest: './',
                 },
             ],

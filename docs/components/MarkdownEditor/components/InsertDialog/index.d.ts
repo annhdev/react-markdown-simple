@@ -1,4 +1,4 @@
-import { DialogField } from '../../types';
+import { DialogField } from '../../../../types';
 export interface DynamicDialogProps {
     isOpen: boolean;
     title: string;
