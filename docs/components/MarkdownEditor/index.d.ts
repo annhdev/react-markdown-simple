@@ -1,4 +1,4 @@
-import { MarkdownEditorProps } from './types';
+import { MarkdownEditorProps } from '../../types';
 /** Example Usage:
  * <MarkdownEditor
  *     value={markdownText}

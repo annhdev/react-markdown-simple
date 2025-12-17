@@ -8,6 +8,7 @@ import importSort from 'eslint-plugin-simple-import-sort'
 import storybook from 'eslint-plugin-storybook'
 import globals from 'globals'
 import tsEslint from 'typescript-eslint'
+import importPlugin from 'eslint-plugin-import'
 
 export default defineConfig([
     globalIgnores(['dist', '.storybook', 'docs']),
@@ -21,6 +22,10 @@ export default defineConfig([
         plugins: {
             'simple-import-sort': importSort,
             'prefer-arrow': preferArrowFunctions,
+            import: importPlugin,
+        },
+        settings: {
+            'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
         },
         rules: {
             ...reactHooks.configs.recommended.rules,
@@ -43,6 +48,17 @@ export default defineConfig([
                     disallowPrototype: true,
                     singleReturnOnly: false,
                     classPropertiesAllowed: true,
+                },
+            ],
+            'import/extensions': [
+                'error',
+                'ignorePackages',
+                {
+                    '': 'never',
+                    js: 'never',
+                    jsx: 'never',
+                    ts: 'never',
+                    tsx: 'never',
                 },
             ],
         },

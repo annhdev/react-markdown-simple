@@ -1,11 +1,12 @@
 import React, { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
+import { DEFAULT_TOOLBAR, FONT_OPTIONS } from '@/constant'
+import Icons from '@/icons'
+import { CodeBlockPlugin, RawImagePlugin, RawLinkPlugin, YouTubeEmbedPlugin } from '@/plugins'
+import type { CursorPosition, DialogConfig, DialogField, MarkdownEditorProps, ToolbarButtonConfig } from '@/types'
+import { highlightMarkdownSource, parseMarkdown } from '@/utils'
+
 import { InsertDialog, Switch, ToolButton } from './components'
-import { DEFAULT_TOOLBAR, FONT_OPTIONS } from './constant.ts'
-import Icons from './icons'
-import { CodeBlockPlugin, RawImagePlugin, RawLinkPlugin, YouTubeEmbedPlugin } from './plugins'
-import type { CursorPosition, DialogConfig, DialogField, MarkdownEditorProps, ToolbarButtonConfig } from './types'
-import { highlightMarkdownSource, parseMarkdown } from './utils'
 
 /** Example Usage:
  * <MarkdownEditor

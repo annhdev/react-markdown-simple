@@ -34,6 +34,8 @@ The `MarkdownEditor` component provides a user-friendly interface for writing an
 - Easy Integration with React Applications
 - Integration with Tailwind CSS or other CSS frameworks
 - Plugin System for Extending Functionality
+- Standalone `MarkdownViewer` Component
+- Lightweight and Fast
 
 ## <a id="installation"></a>💎 Installation
 
@@ -41,6 +43,7 @@ The `MarkdownEditor` component provides a user-friendly interface for writing an
 npm i react-markdown-simple
 ```
 To use the `MarkdownEditor` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.
+
 ```jsx
 import React, { useState } from 'react';
 import { MarkdownEditor } from 'react-markdown-simple';
@@ -66,12 +69,34 @@ const App = () => {
 export default App;
 ```
 
+To use the `MarkdownViewer` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.
+
+```jsx
+import React from 'react';
+import { MarkdownViewer } from 'react-markdown-simple';
+
+import 'react-markdown-simple/style.min.css';
+const App = () => {
+  const markdownContent = '# Hello, Markdown Viewer!\n\nThis is a **Markdown** viewer component.';
+
+  return (
+    <MarkdownViewer
+        value={markdownContent}
+        plugins={[]}
+    />
+  );
+};
+export default App;
+```
+
 
 ## <a id="demo"></a>💎 Demo
 
 You can see a live demo of the component [Here](https://annhdev.github.io/react-markdown-simple/)
 
 ## <a id="configuration"></a>🔧 Configuration
+
+The `MarkdownEditor` component accepts several props to configure its behavior:
 
 | Prop Name      | Type       | Default   | Description                             |
 |----------------|------------|-----------|-----------------------------------------|
@@ -90,6 +115,16 @@ You can see a live demo of the component [Here](https://annhdev.github.io/react-
 | characterLimit     | number | undefined        | Optional character limit for the editor content. |
 | showToolbar     | boolean | true        | If true, displays the toolbar. |
 | showFooterBar     | boolean | true        | If true, displays the footer bar. |
+
+
+The `MarkdownViewer` component accepts several props to configure its behavior:
+
+| Prop Name      | Type       | Default   | Description                             |
+|----------------|------------|-----------|-----------------------------------------|
+| value          | string     | ''        | The Markdown content to be rendered.           |
+| plugins       | array      | []        | An array of plugins to extend the functionality of the viewer. |
+| className     | string     | ''        | Additional CSS classes to apply to the viewer container. |
+| style         | object     | {}        | Inline styles to apply to the viewer container. |
 
 ## <a id="plugins"></a>🔌 Plugins
 

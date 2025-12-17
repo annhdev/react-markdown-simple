@@ -1,7 +1,7 @@
 {
     "name": "react-markdown-simple",
     "description": "Simple and efficient markdown rendering component for React applications.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "keywords": [
         "react",
         "markdown",
@@ -41,7 +41,7 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
-        "build:full": "tailwindcss -i ./src/components/MarkdownEditor/style.css -o ./src/components/MarkdownEditor/style.min.css --minify && storybook build -o docs && tsc -b && vite build",
+        "build:full": "tailwindcss -i ./src/style.css -o ./src/style.min.css --minify && storybook build -o docs && tsc -b && vite build",
         "lint": "eslint . --ext ts,tsx",
         "lint:fix": "eslint . --ext ts,tsx --fix",
         "format": "prettier --check .",
@@ -54,7 +54,7 @@
         "test:ui": "vitest --ui",
         "coverage": "vitest run --coverage",
         "prepublishOnly": "vitest run && npm run build",
-        "tailwind:build": "tailwindcss -i ./src/components/MarkdownEditor/style.css -o ./src/components/MarkdownEditor/style.min.css --minify --watch"
+        "tailwind:build": "tailwindcss -i ./src/style.css -o ./src/style.min.css --minify --watch"
     },
     "peerDependencies": {
         "react": "^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
@@ -80,6 +80,7 @@
         "autoprefixer": "^10.4.22",
         "eslint": "^9.39.1",
         "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-prefer-arrow": "^1.2.3",
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react-refresh": "^0.4.24",
@@ -106,5 +107,8 @@
     },
     "overrides": {
         "vite": "npm:rolldown-vite@7.2.5"
+    },
+    "dependencies": {
+        "clsx": "^2.1.1"
     }
 }

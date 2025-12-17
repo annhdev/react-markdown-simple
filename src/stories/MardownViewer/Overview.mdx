@@ -1,0 +1,137 @@
+import {Canvas, Meta} from '@storybook/addon-docs/blocks';
+import * as MarkdownViewerPreview from './index.stories';
+import Table from "../Table/index.tsx";
+
+<Meta title="MarkdownViewer Preview" of={MarkdownViewerPreview}/>
+
+# Markdown Viewer Component
+
+![Demo](./markdown-viewer-demo.png)
+
+[![npm](https://img.shields.io/npm/v/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)[![npm](https://img.shields.io/npm/dm/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)[![NPM](https://img.shields.io/npm/l/react-markdown-simple)](https://www.npmjs.com/package/react-markdown-simple)
+
+The `MarkdownViewer` component is designed to render Markdown content in a clean and readable format. It supports various Markdown features, including headings, lists, links, images, code blocks, and more.
+
+## Get Started
+- [Features](#features)
+- [Installation](#installation)
+- [Demo](#demo)
+- [Configuration](#configuration)
+- [Customization](#customization)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Support or Donate](#donate)
+- [Roadmap](#roadmap)
+- [License](#license)
+
+## <a id="features"></a>✨ Features
+- Renders Standard Markdown Syntax
+- Supports Code Blocks with Syntax Highlighting
+- Handles Images and Links
+- Customizable Styles and Themes
+- Easy Integration with React Applications
+- Integration with Tailwind CSS or other CSS frameworks
+- Lightweight and Fast
+
+## <a id="installation"></a>💎 Installation
+
+```
+npm i react-markdown-simple
+```
+
+To use the `MarkdownViewer` component, import it into your React application and include it in your JSX code. You can customize its behavior through various props.
+
+```jsx
+import React from 'react';
+import { MarkdownViewer } from 'react-markdown-simple';
+
+import 'react-markdown-simple/style.min.css';
+const App = () => {
+  const markdownContent = '# Hello, Markdown Viewer!\n\nThis is a **Markdown** viewer component.';
+
+  return (
+    <MarkdownViewer
+        value={markdownContent}
+        plugins={[]}
+    />
+  );
+};
+export default App;
+```
+
+## <a id="demo"></a>💎 Demo
+
+<Canvas>
+    <MarkdownViewerPreview.Demo/>
+</Canvas>
+
+## <a id="configuration"></a>⚙️ Configuration
+The `MarkdownViewer` component accepts several props to configure its behavior:
+
+<Table
+    headers={['Prop', 'Type', 'Default', 'Description']}
+    rows={[
+        ['value', 'string', "''", 'The Markdown content to be rendered.'],
+        ['plugins', 'array', '[]', 'An array of plugins to extend the functionality of the viewer.'],
+        ['className', 'string', "''", 'Additional CSS classes to apply to the viewer container.'],
+        ['style', 'object', '{}', 'Inline styles to apply to the viewer container.']
+    ]}
+/>
+
+## <a id="plugins"></a>🔌 Plugins
+
+The `MarkdownViewer` component supports plugins to extend its functionality. You can use existing plugins or create your own.
+- **CodeBlock Plugin**: Enables syntax highlighting for code blocks.
+- **Youtube Plugin**: Allows show YouTube videos using a simple markdown syntax.
+- **RawImage Plugin**: Allows embedding images using raw tag `img` in markdown.
+- **RawLink Plugin**: Allows embedding links using raw tag `a` in markdown.
+
+To use a plugin, simply import it and include it in the `plugins` prop of the `MarkdownViewer` component.
+
+```jsx
+import { MarkdownViewer } from 'react-markdown-simple';
+import { CodeBlockPlugin } from 'react-markdown-simple/plugins/CodeBlockPlugin';
+import 'react-markdown-simple/style.min.css';
+const App = () => {
+  const markdownContent = '```javascript\nconsole.log("Hello, World!");\n```';
+
+  return (
+    <MarkdownViewer
+        value={markdownContent}
+        plugins={[CodeBlockPlugin]}
+    />
+  );
+};
+export default App;
+```
+## <a id="customization"></a>🎨 Customization
+You can customize the appearance of the `MarkdownViewer` component using CSS. You can override the default styles by targeting the component's CSS classes or by passing custom styles through the `className` and `style` props.
+You can also customize the rendering of specific Markdown elements by creating custom plugins.
+
+## <a id="contributing"></a>🤝 Contributing
+Contributions are welcome! If you find a bug or have a feature request, please open an issue on the GitHub repository. If you'd like to contribute code, please fork the repository and submit a pull request.
+
+## <a id="troubleshooting"></a>🐞 Troubleshooting
+If you encounter any issues while using the `MarkdownViewer` component, please check the following:
+- Ensure that you have the latest version of the `react-markdown-simple` package installed.
+- Check the GitHub issues page for known issues and solutions.
+- If you can't find a solution, feel free to open a new issue with detailed information about the problem.
+
+## ❤️ Support or Donate
+If you find this project useful and would like to support its development, consider making a donation. You can donate via [GitHub Sponsors](https://github.com/sponsors/annhdev).
+
+[![PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.me/annhdev)
+
+<img src="public/bmc_qr.png" width="200px" alt="Buy me a beer" />
+
+## <a id="roadmap"></a>🛣️ Roadmap
+Planned features and improvements for future releases include:
+- Additional Plugins for Extended Functionality
+- Enhanced Customization Options
+- Improved Performance and Responsiveness
+- Better Accessibility Support
+- Integration with More CSS Frameworks
+
+## Licensing
+The `MarkdownEditor` component is open-source and available under the MIT License. Feel free to use, modify, and distribute it in your projects.
+
